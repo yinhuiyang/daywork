@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>首页</title>
+		<link rel="stylesheet" href="./plugins/layui/css/layui.css" media="all">
+		<link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/font-awesome.4.6.0.css">
+		<style>
+			html {
+				background: #f3f3f3;
+				padding: 10px 20px;
+				height: 100%;
+				
+			}
+			
+			body {
+				border-radius: 20px;
+				background: #FFFFFF;
+				height: 90%;
+			}
+			#show{
+				 font-family:"经典圆体繁", "microsoft yahei", "Arial Rounded MT Bold", "Helvetica Rounded", Arial, sans-serif;
+				text-align: center;
+				line-height: 400px;
+				font-size: 60px;
+				color: #010101;
+				text-shadow: 0 8px 9px #c4b59d, 0px -2px 1px #fff;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="show">
+
+		</div>
+		<script type="text/javascript" src="build/js/jquery-2.1.0.js"></script>
+		<script src="./plugins/layui/layui.js"></script>
+		<script>
+			layui.use('jquery', function() {
+				var $ = layui.jquery;
+				$('#test').on('click', function() {
+					parent.message.show({
+						skin: 'cyan'
+					});
+				});
+			}); 
+		
+
+				function run() {
+					var time = new Date(); //获取系统当前时间
+					var year = time.getFullYear();
+					var month = time.getMonth() + 1;
+					var date = time.getDate(); //系统时间月份中的日
+					var day = time.getDay(); //系统时间中的星期值
+					var weeks = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+					var week = weeks[day]; //显示为星期几
+					var hour = time.getHours();
+					var minutes = time.getMinutes();
+					var seconds = time.getSeconds();
+					if(month < 10) {
+						month = "0" + month;
+					}
+					if(date < 10) {
+						date = "0" + date;
+					}
+					if(hour < 10) {
+						hour = "0" + hour;
+					}
+					if(minutes < 10) {
+						minutes = "0" + minutes;
+					}
+					if(seconds < 10) {
+						seconds = "0" + seconds;
+					}
+					//var newDate = year+"年"+month+"月"+date+"日"+week+hour+":"+minutes+":"+seconds;
+					document.getElementById("show").innerHTML = year + "年" + month + "月" + date + "日" + week + hour + ":" + minutes + ":" + seconds;
+					setTimeout('run()', 1000);
+				}
+
+			run();
+		</script>
+	</body>
+
+</html>

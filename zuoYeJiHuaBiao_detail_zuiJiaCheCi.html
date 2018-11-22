@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/zl.css" />
+    <link rel="stylesheet" href="js/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="css/iconfont/iconfont.css" media="all">
+    <style>
+        html {
+            background: #f3f3f3;
+            padding: 20px;
+        }
+
+        body {
+            padding: 20px;
+            background: #FFFFFF;
+            border-radius: 10px;
+            overflow-y: scroll;
+        }
+        .layui-form-select .layui-input {
+            width: 252px;
+            padding-right: 66px;
+            cursor: pointer;
+            border: 1px solid #cac1c2;
+            border-radius: 4px;
+
+        }
+        .layui-form-select dl {
+
+            width: 252px;
+        }
+        .layui-form-select .layui-edge {
+
+            right: -48px;
+
+        }
+        .layui-this {
+             background: #2197ff !important;
+        }
+        .sortable-ghost {
+            opacity: 0.4;
+            background-color: #46d0fe !important;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="layui-form"  style="position: relative;" >
+        <form class="layui-form" action=""  lay-filter="demo1">
+
+            <div class="layui-form-item">
+                <label class="zl-label">车次：</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="common-input " name="trainNum" placeholder="">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="zl-label">列车类型：</label>
+                <div class="layui-input-inline">
+                    <select name="trainType"  lay-search="" class="common-input ">
+                        <option value="">直接选择或搜索选择</option>
+                        <option value="直通高速动车">直通高速动车</option>
+                        <option value="直通动车">直通动车</option>
+                        <option value="直通直达">直通直达</option>
+                        <option value="直通快速">直通快速</option>
+                        <option value="直通普快">直通普快</option>
+                        <option value="管内高速动车">管内高速动车</option>
+                        <option value="管内城际">管内城际</option>
+                        <option value="管内市郊">管内市郊</option>
+                        <option value="管内特快">管内特快</option>
+                        <option value="管内快速">管内快速</option>
+                        <option value="管内动车">管内动车</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="zl-label">始发：</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="common-input" name="startStation" placeholder="">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="zl-label">终到：</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="common-input " name="endStation" placeholder="">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="zl-label">到点：</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="common-input zl-rili" name="arrivePoint" placeholder="" id="data1">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="zl-label">开点：</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="common-input zl-rili" name="openPoint" placeholder="" id="data2">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="zl-label">站台：</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="common-input " name="platForm" placeholder="">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="zl-label">编组：</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="common-input " name="marshalling" placeholder="">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="zl-label">担当：</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="common-input " name="TakeOn" placeholder="">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="zl-label">作业：</label>
+                <div class="layui-input-inline lanInput"  style="width:300px">
+                    <input type="checkbox" name="jiashui" value="加水" title="加水" lay-skin="primary"  >
+                    <input type="checkbox" name="xiwu" value="吸污" title="吸污" lay-skin="primary" >
+                    <input type="checkbox" name="xingyoubao" value="行邮包" title="行邮包" lay-skin="primary"  >
+
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="zl-label">停靠站：</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="common-input "  name="stopStations" placeholder="">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="zl-label">关联站：</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="common-input"  name="aboutStation" placeholder="">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="zl-label">股道：</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="common-input "  name="stockMarket" placeholder="">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="zl-label">列车方向：</label>
+                <div class="layui-input-inline">
+                    <select name="trainDirection"  lay-search="" class="common-input ">
+                        <option value="">直接选择或搜索选择</option>
+                        <option value="正编">正编</option>
+                        <option value="反编">反编</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="zl-label">列车对数：</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="common-input "  name="trainLogarithm" placeholder="">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="zl-label">备注：</label>
+                <div class="layui-input-inline">
+
+                    <textarea style="width: 230px;height: 80px" placeholder="请输入内容" name="remark" class="common-input " class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <!--<div class="layui-form-item">-->
+                <!--<label class="zl-label">执行日期：</label>-->
+                <!--<div class="layui-input-inline">-->
+                    <!--<input type="text" class="common-input zl-rili" placeholder="" id="data3">-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="layui-form-item">-->
+                <!--<label class="zl-label">截止日期：</label>-->
+                <!--<div class="layui-input-inline">-->
+                    <!--<input type="text" class="common-input zl-rili" placeholder="" id="data4">-->
+                <!--</div>-->
+            <!--</div>-->
+            <div  style="margin:30px 20px 50px 85px;">
+                <button class="layui-btn common-btn"  data-type="reload" lay-submit lay-filter="zhuijia">保存</button>
+                <button class="layui-btn common-btn" data-type="reload">返回</button>
+            </div>
+        </form>
+
+    </div>
+</body>
+<script type="text/javascript" src="js/jquery-2.1.0.js"></script>
+<script type="text/javascript" src="js/layui/layui.all.js"></script>
+<script type="text/javascript" src="js/jquery.url.js"></script>
+<script>
+    $(()=>{
+        //原停运状态数据check加载样式
+
+        $('.lanInput').delegate("i", "click", function(){
+            $(this).toggleClass("laninput");
+        });
+        $('.lanInput').delegate("span", "click", function(){
+            $(this).next().toggleClass("laninput");
+        });
+
+
+    })
+   
+</script>
+<script>
+    layui.use(['form','laydate','table'], function () {
+        // var index = parent.layer.getFrameIndex(window.name)
+        // layer.iframeAuto(index)
+        var form = layui.form;
+        var laydate = layui.laydate;
+        var table = layui.table;
+        form.val("demo1", {
+            "trainNum": "G5" // "name": "value"
+            ,"trainType": "直通高速动车"
+            ,"startStation": '南京'
+            ,"endStation": '上海'
+            ,"arrivePoint": '01:00:00'
+            ,"openPoint": "03:00:00"
+            ,"platForm": "南京"
+            ,"marshalling": "编组"
+            ,"TakeOn": "南京"
+            ,"taskName": ""
+            ,"stopStations": "常州"
+            ,"aboutStation": "常州"
+            ,"stockMarket": 6
+            ,"trainDirection": "正编"
+            ,"trainLogarithm": 6
+            ,"remark": "测试"
+        })
+        //日期
+        laydate.render({
+            elem: '#data1'
+            ,type: 'time'
+        });
+        laydate.render({
+            elem: '#data2'
+            ,type: 'time'
+        });
+        laydate.render({
+            elem: '#data3'
+        });
+        laydate.render({
+            elem: '#data4'
+        });
+
+        // 弹窗表格渲染
+        form.on('submit(zhuijia)', function(data){
+
+           //console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
+           // console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
+            //重构数组
+            if(typeof(data.field.jiashui)=='undefined'){
+                data.field.jiashui=''
+            }
+            if(typeof(data.field.xiwu)=='undefined'){
+                data.field.xiwu=''
+            }
+            if(typeof(data.field.xingyoubao)=='undefined'){
+                data.field.xingyoubao=' '
+            }
+            data.field.taskName=data.field.jiashui+';'+data.field.xiwu+';'+data.field.xingyoubao
+            for(var key in data.field){
+                delete data.field['jiashui'];
+                delete data.field['xiwu'];
+                delete data.field['xingyoubao'];
+            }
+
+            // console.log($(data.form).serialize());
+            // console.log(JSON.stringify(data.field));
+
+            data.field.fkTransferGuid=jQuery.url.param("fkTransferGuid")
+            console.log(data.field)
+            $.ajax({
+                url: 'http://192.168.65.212:8000/HOME/AddTrainNum',
+                type: 'post',
+                data: jQuery.param(data.field),
+                success: function (msg) {
+                  console.log(msg)
+                }
+            });
+
+
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+        
+    });
+    //	表格行拖动		
+			
+</script>
+</html>

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>站点管理</title>
+
+		<link rel="stylesheet" href="../plugins/layui/css/layui.css" media="all">
+		<link rel="stylesheet" href="../build/css/app.css" media="all">
+		<link rel="stylesheet" href="../build/css/common.css" media="all">
+		<script type="text/javascript" src="../build/js/jquery-2.1.0.js"></script>	
+	</head>
+	<style>
+		html {
+			background: #f3f3f3;
+			padding: 20px;
+		}
+		
+		body {
+			padding: 20px;
+			background: #FFFFFF;
+			border-radius: 10px;
+			box-shadow: 0 2px 6px rgba(100, 100, 100, 0.3);
+			min-height: 400px;
+		}
+		
+		#wrap {
+			width: 300px;
+			text-align: center;
+			background-color: #fff !important;
+			border: 1px solid #f1f1f1;
+			padding: 20px 10px;
+		}
+		
+		#wrap a {
+			color: #676767 !important;
+			background-color: #f9f9f9;
+			height: 30px;
+			line-height: 30px;
+		}
+		
+		#wrap a:hover {
+			color: #fff !important;
+			background-color: #28a4fc;
+		}
+		
+		#wrap a:nth-child(1):hover {
+			color: #000 !important;
+		}
+		
+		#wrap .layui-nav-item .layui-nav-more {
+			left: 20px;
+			border-color: transparent transparent transparent #999999;
+		}
+		
+		#wrap .layui-nav-itemed .layui-nav-more {
+			transform: translateY(5px);
+			border-color: #999999 transparent transparent;
+		}
+		
+		#wrap .layui-nav-itemed>a {
+			border-bottom: 1px solid #cac1c2;
+		}
+		
+		#wrap>li {
+			border: 1px solid #cac1c2;
+			border-radius: 5px;
+			overflow: hidden;
+			margin-bottom: 12px;
+		}
+		
+		#wrap {
+			margin-top: 30px;
+		}
+		
+		#reset {
+			position: relative;
+			left: 50px;
+		}
+		
+		.select-main {
+			width: 500px;
+			height: 300px;
+			border-radius: 5px;
+			position: absolute;
+			top: 120px;
+			left: 500px;
+			background-color: #F9F9F9;
+			box-shadow: 0px 10px 15px #f1f1f1;
+		}
+		
+		.click {
+			background-color: #28a4fc !important;
+		}
+		
+		#msg {
+			text-align: center;
+			color: red;
+		}
+	</style>
+
+	<body>
+		<div class="search-form">
+			<div class="layui-form">
+				<input style="width: 190px;margin-left: 110px;" type="text" id="demoReload" class="layui-input-block common-input" placeholder="站点名称" />
+				<button class="layui-btn common-btn search-btn" data-type="search"><i class="layui-icon layui-icon-search"></i>查询</button>
+				<button onclick="add()" class="layui-btn common-btn" data-type="insert"><i class="layui-icon layui-icon-add-1"></i>新增</button>
+				<button onclick="del()" class="layui-btn common-btn" data-type="delete"><i class="layui-icon layui-icon-delete"></i>删除</button>
+			</div>
+		</div>
+		<div>
+			<form class="layui-form" id="myForm" action="" method="post">
+				<div id="seld" class="layui-form-item" style="margin-top: 40px;">
+					<div style="width: 200px;" class="layui-input-block">
+						<ul id="wrap" class="layui-nav layui-nav-tree" lay-filter="test">
+							<!--<li class="layui-nav-item layui-nav-itemed">
+								<a href="javascript:;" style="background: #FFFFFF;">南京站</a>
+								<dl class="layui-nav-child">
+									<dd><a href="#">1</a></dd>
+									<dd><a href="#">2</a></dd>
+								</dl>
+							</li>
+							<li class="layui-nav-item layui-nav-itemed">
+								<a href="javascript:;" style="background: #FFFFFF;">上海站</a>
+								<dl class="layui-nav-child">
+									<dd><a href="#">3</a></dd>
+									<dd><a href="#">4</a></dd>
+								</dl>
+							</li>-->
+						</ul>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<div class="select-main">
+			<form>
+				<div style="position: relative;top:20px;left: 50px;">
+					<label class="layui-form-label" style="font-size: 15px;">关联范围：</label>
+					<input readonly="readonly" type="text" autocomplete="off" class="layui-input-block common-input" placeholder="关联范围" style="position: relative;top:-35px;" id="selRanger" />
+					<label class="layui-form-label" style="font-size: 15px;">站点名称：</label>
+					<input type="text" autocomplete="off" class="layui-input-block common-input" placeholder="站点名称" style="position: relative;top:-35px;" id="sitename" />
+				</div>
+				<div style="position: relative;left:150px;top:20px;">
+					<button onclick="modify()" class="layui-btn common-btn" type="button" id="save">保存</button>
+					<button onclick="reflush()" class="layui-btn common-btn" type="button" id="reset">重置</button>
+				</div>
+			</form>
+		</div>
+	</body>
+	<script type="text/html" id="respwd">
+		<form class='layui-form' id='myForm1' action='' method='post'>
+			<div class="layui-form-item">
+				<label for='opwd'>关联范围:&nbsp;</label>
+				<input readonly="readonly" value="南京" name='opwd' id='opwd' required type='text' class='common-input'><br/><br/>
+			</div>
+			<div class="layui-form-item">
+				<label for='npwd'>站点名称:&nbsp;</label>
+				<input name='npwd' id='npwd' required type='text' class='common-input'>
+			</div>
+			<div id="msg" class="layui-form-item">
+			</div>
+		</form>
+	</script>
+	<script src="../plugins/layui/layui.js"></script>
+	
+	<script>
+		var element;
+		//注意：导航 依赖 element 模块，否则无法进行功能性操作
+		layui.use('element', function() {
+			element = layui.element;
+			//…
+		});
+		//添加关联车站
+		function renderForm() {
+			layui.use('form', function() {
+				var form = layui.form;
+				form.render();
+			});
+		}
+		$.ajax({
+			type: "post",
+			url: "http://10.133.10.204/HOME/GetStation?keyword="+"南京",
+			async: true,
+			success: function(data) {
+				console.log(data)
+				var arr = [];
+				for(var i = 0; i < data.data.length; i++) {
+					var aa = data.data[i];
+					$("#wrap").append("<li class='layui-nav-item layui-nav-itemed'><a href='javascript:;' style='background: #FFFFFF;'>" + aa.ParentStationName + "</a><dl class='layui-nav-child'></dl></li>");
+					//renderForm(); 
+					for(var j = 0; j < aa.ListStation.length; j++) {
+						var bb = aa.ListStation[j];
+						$(".layui-nav-child").eq(i).append("<dd><a href='#'>" + bb.DeptName + "</a></dd>");
+						renderForm(); //添加完成之后需要重新渲染
+						//console.log(bb.DeptName)
+						arr.push(bb.DeptName)
+					};
+				};
+				element.render();
+
+				$(".layui-nav-child>dd").click(function() {
+					$("#sitename").val($(this).find("a").text());
+					$("#selRanger").val($(this).parents(".layui-nav-itemed").find('a').eq(0).text());
+				});
+				$(".layui-nav-child a").click(function() {
+					$(".layui-nav-child a").removeClass("click");
+					$(this).addClass("click")
+				});
+
+				$(".search-btn").click(function() {
+					var keyword = $("#demoReload").val();
+					if(keyword.trim() == "") {
+						layer.msg('请输入搜索内容', {
+							time: 500,
+							icon: 5
+						});
+					} else {
+						 
+						var flag = false;
+						for(var i = 0; i < arr.length; i++) {
+							if(keyword === arr[i]) {
+								flag = true;
+								$("#sitename").val(keyword);
+								$("#selRanger").val("南京");
+								$(".layui-nav-child").find("a").each(function(){
+									var val=$(this).html();
+									if(val== keyword){
+										$(this).addClass("click")
+									}else{
+										$(this).removeClass("click")
+									}
+								});
+							} else {
+								//-----
+							}
+						}
+						if(flag == false) {
+							layer.msg('无匹配内容', {
+								time: 500,
+								icon: 5
+							});
+							
+							$(".layui-nav-child").find("a").each(function(){
+										$(this).removeClass("click");
+										$("#sitename").val("");
+										$("#selRanger").val("");
+								});
+						}
+					}
+				});
+
+			}
+		});
+	</script>
+	<script>
+		function reflush() {
+			window.location.reload();
+		}
+		//新增
+		function add() {
+			layui.use('layer', function() {
+				var layer = layui.layer;
+				layer.open({
+					title: '新增',
+					area: ["400px", "300px"],
+					content: $("#respwd").html(),
+					btn: ["保存", "返回"],
+					btn1: function() {
+						var opwd = $("#opwd").val();
+						var npwd = $("#npwd").val();
+						console.log(opwd);
+						console.log(npwd);
+						if(opwd.trim() == "") {
+							$("#msg").text("关联范围不可为空");
+						} else if(npwd.trim() == "") {
+							$("#msg").text("站点名称不可为空");
+						} else {
+							$.ajax({
+								type: "post",
+								url: 'http://10.133.10.204/HOME/InsertStation?deptName=' + npwd + '&parentName=' + opwd,
+								async: true,
+								success: function(data) {
+									var ic=5;
+									if(data.msg=="新增站点成功"){
+										ic=6
+									}
+									    layer.msg(data.msg, {
+											time: 500,
+											icon: ic
+										});
+									
+									if(data.msg == "新增站点成功") {
+										setTimeout(function () {
+									        window.location.reload()
+									    }, 500);
+									}
+								},
+								error: function() {
+									alert("获取失败")
+								}
+							});
+						}
+					}, //点击保存按钮的回调
+					btn2: function() {
+						layer.close(layer.index)
+					}
+				})
+
+			});
+		}
+
+		//删除
+		function del() {
+			var glz = $("#selRanger").val();
+			var zdm = $("#sitename").val();
+			if(glz.trim() == "" || zdm.trim() == "") {
+				layer.msg('请选择一个站点', {
+					time: 500,
+					icon: 5
+				});
+			} else {
+				layer.confirm('真的删除行么', function(index) {
+					layer.close(index);
+					$.ajax({
+						type: "post",
+						url: 'http://10.133.10.204/HOME/DeleteStation?deptName=' + zdm,
+						async: true,
+						success: function(data) {
+							var ic=5;
+							if(data.msg=="删除成功"){
+								ic=6
+							}
+							    layer.msg(data.msg, {
+									time: 500,
+									icon: ic
+								});
+							
+							if(data.msg == "删除成功") {
+								setTimeout(function () {
+							        window.location.reload()
+							    }, 500);
+							}
+						},
+						error: function() {
+							alert("获取失败")
+						}
+					});
+				});
+			}
+		}
+
+		//修改
+		function modify() {
+			var oname=$(".click").text();
+			var pname = $("#selRanger").val();
+			var dtname = $("#sitename").val();
+			if(pname.trim() == "" || dtname.trim() == "") {
+				layer.msg('请选择一个站点', {
+					time: 500,
+					icon: 5
+				});
+			} else {
+				$.ajax({
+					type: "post",
+					url: 'http://10.133.10.204/HOME/UpdateStation?parentName=' + pname + '&OldName=' + oname + '&NewName=' + dtname,
+					async: true,
+					success: function(data) {
+						var ic=5;
+						if(data.msg=="修改成功"){
+							ic=6
+						}
+						    layer.msg(data.msg, {
+								time: 500,
+								icon: ic
+							});
+						
+						if(data.msg == "修改成功") {
+							setTimeout(function () {
+						        window.location.reload()
+						    }, 500);
+						}
+
+					},
+					error: function() {
+						alert("获取失败")
+					}
+				});
+			}
+		}
+	</script>
+
+</html>

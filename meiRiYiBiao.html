@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>每日一表</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/zl.css" />
+    <link rel="stylesheet" href="js/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="css/iconfont/iconfont.css" media="all">
+
+</head>
+<style>
+    html {
+        background: #f3f3f3;
+        padding: 20px;
+    }
+
+    body {
+        padding: 20px;
+        background: #FFFFFF;
+        border-radius: 10px;
+        overflow-y: scroll;
+    }
+    .zl-table-top{
+        border: 1px solid #eeeff0;
+        border-radius: 10px 10px 0 0;
+        margin-top: 15px;
+        height: 34px;
+        text-align: center;
+        color: #104c99;
+        font-weight: bold;
+        line-height: 34px;
+    }
+    .zl-table-bottom{
+        height: 100%;
+        border: 1px solid #eeeff0;
+        border-radius:  0 0 10px 10px;
+        margin-bottom: 15px;
+
+        line-height: 34px;
+        background-color: #eeeff0;
+    }
+    .zl-table-bottom-text{
+        width: 80%;
+        margin: 0 auto;
+        padding-left: 10px;
+        text-align: center;
+        color: #2197ff;
+    }
+    .zl-table-bottom-btn{
+        width: 360px;
+        float: right;
+        text-align: center;
+    }
+    .layui-table-box{
+        margin-bottom: 0px !important;
+    }
+    .layui-layer-content{
+        background: #f3f2f2;
+    }
+    .layui-layer{
+        border-radius: 10px 10px 0 0 !important;
+    }
+
+    .layui-layer-iframe iframe{
+
+        height: 500px !important;
+
+    }
+
+</style>
+
+<body>
+<div class="demoTable">
+    <div class="layui-form" action="" style="position: relative;">
+        <input type="text" name="keyword" id="demoReload" autocomplete="off" class="layui-input-inline common-input zl-lf zl-malf" placeholder="请输入调图版本号" />
+        <input type="text" name="keyword" id="data1" autocomplete="off" class="layui-input-inline common-input zl-rili" placeholder="选择日期" />
+        <button class="layui-btn common-btn" data-type="reload" id="findKey"><i class="layui-icon layui-icon-search"></i>查询</button>
+
+        <button class="layui-btn common-btn data-creat" style="position: absolute;right: 172px;"><i class="iconfont icon-daochu zl-i"></i>导出本地</button>
+        <button id="shengChen" class="layui-btn common-btn data-creat" style="position: absolute;right: 20px;"><i class="iconfont icon-biaoge zl-i"></i>生成作业表</button>
+    </div>
+    <div class="zl-table-top"><p>车站计划作业表(2018-07-03开始执行)</p></div>
+    <table id="table" class="layui-table" lay-filter="zuoyedetail">
+
+    </table>
+
+</div>
+</body>
+
+<script type="text/javascript" src="js/jquery-2.1.0.js"></script>
+<script type="text/javascript" src="js/layui/layui.all.js"></script>
+<!--表格操作按钮-->
+
+
+<script type="text/javascript" src="js/page/meiRiYiBiao.js"></script>
+<!--js控制样式-->
+<script>
+    $(()=>{
+        $('#table').next().children('.layui-table-box').after('  <div class="zl-table-bottom">\n' +
+            '            <div class="zl-table-bottom-text">车站计划作业表(2018-07-03开始执行)</div>\n'  +
+            '        </div>')
+
+    })
+</script>
+
+
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="../plugins/layui/css/layui.css" />
+		<link rel="stylesheet" href="../build/css/common.css" />
+	</head>
+ 	<style>
+ 		.layui-form{	
+			padding: 20px;
+ 		}
+ 	
+ 	</style>
+	<body>
+		<form class="layui-form" action="">
+			<div class="layui-form-item">
+				<label class="layui-form-label">开始时间</label>
+				<div class="layui-input-block">
+					<input type="text" id="start" name="title" required lay-verify="required" placeholder="请选择开始时间" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">截至时间</label>
+				<div class="layui-input-block">
+					<input type="text" name="title" id="end" required lay-verify="required" placeholder="请选择截至时间" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			
+		</form>
+	</body>
+	<script type="text/javascript" src="../build/js/jquery-2.1.0.js"></script>
+	<script type="text/javascript" src="../plugins/layui/layui.js"></script>
+	<script>
+		layui.use("laydate",function(){
+			var laydate = layui.laydate;
+			laydate.render({
+				elem: '#start', //时间选择
+				showBottom: false,
+				done:function(value){
+					console.log(value)
+				}
+			});
+			laydate.render({
+				elem: '#end',//时间选择
+				showBottom: false
+			});
+		})
+	</script>
+</html>

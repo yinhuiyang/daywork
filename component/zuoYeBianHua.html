@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/zl.css" />
+    <link rel="stylesheet" href="../js/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../css/iconfont/iconfont.css" media="all">
+    <style>
+        .yuankaixing-form{
+            margin: 20px 0 0 14px;
+        }
+
+
+    </style>
+</head>
+<body>
+<div id="kaiXingGuiLv" >
+    <div class="tan_main">
+        <span class="tan_main_header"><span>G7031</span>原作业信息</span>
+    </div>
+    <form action=""  class="layui-form">
+        <div class="layui-form-item">
+            <label class="zl-label">执行日期：</label>
+            <div class="layui-input-inline">
+                <input class="common-input zl-yuan-input" type="text" name="password"  placeholder="2018-02-06 00：00" autocomplete="off" class="layui-input" disabled>
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+            <label class="zl-label">截止日期：</label>
+            <div class="layui-input-inline">
+                <input class="common-input zl-yuan-input" type="text" name="password"  placeholder="2018-02-06 00：00" autocomplete="off" class="layui-input" disabled>
+            </div>
+
+        </div>
+        <div class="layui-form-item ">
+            <label class="zl-label">作业信息：</label>
+            <div class="layui-input-inline huiInput"  style="width:300px">
+                <input type="checkbox" name="" title="加水" lay-skin="primary"  disabled>
+                <input type="checkbox" name="" title="吸污" lay-skin="primary" disabled>
+                <input type="checkbox" name="" title="行邮包" lay-skin="primary" checked disabled>
+
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="zl-label">备注:&nbsp&nbsp</label>
+            <div class="layui-input-inline">
+                <textarea name="desc" placeholder="请输入内容" class="layui-textarea" style=" margin-top:10px;background-color:#efefef;width:330px;" disabled></textarea>
+            </div>
+        </div>
+        <div id="" class="yuankaixing">
+            <div class="tan_main">
+                <span class="tan_main_header lan"><span>G7031</span>作业信息</span>
+            </div>
+            <form action=""  class="layui-form ">
+                <div class="layui-form yuankaixing-form">
+                    <div class="layui-form-item">
+                        <label class="zl-label">执行日期：</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="common-input zl-rili" id="test1" placeholder="请选择日期">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="zl-label">截止日期：</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="common-input zl-rili" id="test2" placeholder="请选择日期">
+                        </div>
+                    </div>
+                    <div class="layui-form-item ">
+                        <label class="zl-label">作业信息：</label>
+                        <div class="layui-input-inline lanInput"  style="width:300px">
+                            <input type="checkbox" name="" title="加水" lay-skin="primary"  >
+                            <input type="checkbox" name="" title="吸污" lay-skin="primary" >
+                            <input type="checkbox" name="" title="行邮包" lay-skin="primary"  >
+
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text">
+                        <label class="zl-label">备注:&nbsp&nbsp</label>
+                        <div class="layui-input-inline">
+                            <textarea name="desc" placeholder="请输入内容" class="layui-textarea" style=" margin-top:10px;width:306px;"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </form>
+</div>
+</body>
+<script type="text/javascript" src="../js/jquery-2.1.0.js"></script>
+<script type="text/javascript" src="../js/layui/layui.all.js"></script>
+<!--js控制样式-->
+<script>
+    $(()=>{
+        //原停运状态数据check加载样式
+        $('.huiInput').find('i').each(function () {
+            if($(this).parent().prev()[0].checked==true){
+                $(this).addClass('huiinput')
+            }
+        })
+        $('.lanInput').delegate("i", "click", function(){
+            $(this).toggleClass("laninput");
+        });
+        $('.lanInput').delegate("span", "click", function(){
+            $(this).next().toggleClass("laninput");
+        });
+
+    })
+</script>
+
+<script>
+
+    layui.use(['form','laydate','table'], function () {
+        // var index = parent.layer.getFrameIndex(window.name)
+        // layer.iframeAuto(index)
+        var form = layui.form;
+        var laydate = layui.laydate;
+        var table = layui.table;
+        form.render();
+        //日期
+        laydate.render({
+            elem: '#test1'
+        });
+        laydate.render({
+            elem: '#test2'
+        });
+        // 弹窗表格渲染
+
+    });
+
+
+
+</script>
+</html>

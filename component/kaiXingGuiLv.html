@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/zl.css" />
+    <link rel="stylesheet" href="../js/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../css/iconfont/iconfont.css" media="all">
+    <style>
+        .layui-table-box{
+            margin-right: 20px !important;
+        }
+        .bordercolor{
+
+            background-color: #1E9FFF !important;
+            color: #ffffff !important;
+        }
+    </style>
+</head>
+<body >
+<div id="kaiXingGuiLv" >
+
+    <div class="tan_main">
+        <span class="tan_main_header"><span>G7031</span>原开行规律</span>
+    </div>
+    <form action=""  class="layui-form">
+        <div class="layui-form-item">
+            <label class="zl-label">执行日期：</label>
+            <div class="layui-input-inline">
+                <input class="common-input zl-yuan-input" type="text" name="password" id="yuantest1"  placeholder="2018-02-06 00：00" autocomplete="off" class="layui-input" disabled>
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+            <label class="zl-label">截止日期：</label>
+            <div class="layui-input-inline">
+                <input class="common-input zl-yuan-input" type="text" name="password" id="yuantest2"  placeholder="2018-02-06 00：00" autocomplete="off" class="layui-input" disabled>
+            </div>
+
+        </div>
+        <!--<div class="layui-form-item ">-->
+            <!--<label class="zl-label">开行规律：</label>-->
+            <!--<div class="layui-input-inline" id="huiInput" style="width:300px">-->
+                <!--<input type="checkbox" value="day1" title="周一" lay-skin="primary" disabled>-->
+                <!--<input type="checkbox" name="day2" title="周二" lay-skin="primary" disabled >-->
+                <!--<input type="checkbox" name="day3" title="周三" lay-skin="primary" disabled>-->
+                <!--<input type="checkbox" name="day4" title="周四" lay-skin="primary" disabled>-->
+                <!--<input type="checkbox" name="day5" title="周五" lay-skin="primary" disabled>-->
+                <!--<input type="checkbox" name="day6" title="周六" lay-skin="primary" disabled>-->
+                <!--<input type="checkbox" name="day7" title="周日" lay-skin="primary" disabled>-->
+            <!--</div>-->
+        <!--</div>-->
+    </form>
+    <div id="" class="yuankaixing">
+        <div class="tan_main">
+            <span class="tan_main_header lan"><span>G7031</span>开行规律</span>
+        </div>
+        <form action=""  class="layui-form yuankaixing-form">
+            <div class="layui-form-item">
+                <label class="zl-label">执行日期：</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="common-input zl-rili" id="test1" placeholder="请选择日期">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="zl-label">截止日期：</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="common-input zl-rili" id="test2" placeholder="请选择日期">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="zl-label" >单选框:&nbsp&nbsp</label>
+                <div class="layui-input-inline" style="width:250px">
+                    <input type="radio" name="date" value="全部" title="全部" checked="">
+                    <input type="radio" name="date" value="隔日" title="隔日">
+                    <br>
+                    <input type="radio" name="date" value="任意日期" title="任意日期" >
+                    <input type="radio" name="date" value="任意周期" title="任意周期">
+                </div>
+            </div>
+        </form>
+        <div class="tab1" style="display: none">
+            <table id="tanTable" class="layui-table">
+
+            </table>
+
+            <div class="tan-btn">
+                <button class="layui-btn layui-btn-sm zl-btn">添加</button>
+                <button class="layui-btn layui-btn-sm zl-btn">删除</button>
+                <button class="layui-btn layui-btn-sm zl-btn">清空</button>
+            </div>
+        </div>
+        <div class="tab2 layui-form" style="display: none;width:300px;float: right;padding:10px;background: #f8f8f8; margin: 0px 10px 10px 10px" >
+            <div class="layui-form-item ">
+
+                <div class="layui-input-inline lanInput"  style="width:300px">
+                    <input type="checkbox" name="" title="周一" lay-skin="primary"  >
+                    <input type="checkbox" name="" title="周二" lay-skin="primary" >
+                    <input type="checkbox" name="" title="周三" lay-skin="primary"  >
+                    <input type="checkbox" name="" title="周四" lay-skin="primary"  >
+                    <input type="checkbox" name="" title="周五" lay-skin="primary" >
+                    <input type="checkbox" name="" title="周六" lay-skin="primary"  >
+                    <input type="checkbox" name="" title="周日" lay-skin="primary" >
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+</body>
+<!--弹窗表格操作-->
+<script type="text/html" id="tanoption">
+    <select lay-ignore id="tanoption-select">
+        <option value="" disabled>--请选择--</option>
+        <option value="0">正常执行</option>
+        <option value="1">此令作废</option>
+    </select>
+</script>
+<script type="text/javascript" src="../js/jquery-2.1.0.js"></script>
+<script type="text/javascript" src="../js/layui/layui.all.js"></script>
+<!--js控制样式-->
+<script>
+    $(()=>{
+
+        //原开行规律数据加载样式
+        // $('input[name=date]').next().children('i').on('click',function () {
+        //         alert('nogg')
+        // })
+        // $('.layui-input-inline').click(function () {
+        //     alert('layui-input-inline')
+        // })
+       $('.layui-input-inline').delegate("i", "click", function(){
+           var $tar=$(this)
+           var $div=$tar.next()
+           if($div.text()=='任意日期'){
+               $('.tab1').show()
+               $('.tab2').hide()
+           }else if($div.text()=='任意周期'){
+
+               $('.tab2').show()
+               $('.tab1').hide()
+           }else {
+               $('.tab2').hide()
+               $('.tab1').hide()
+           }
+       });
+
+
+        $('.layui-input-inline').delegate(".layui-form-radio", "click", function(){
+
+             var $tar=$(this).children('div')
+
+            if($tar.text()=='任意日期'){
+
+                $('.tab1').show()
+                $('.tab2').hide()
+            }else if($tar.text()=='任意周期'){
+
+                $('.tab2').show()
+                $('.tab1').hide()
+            }else {
+                $('.tab2').hide()
+                $('.tab1').hide()
+            }
+        });
+
+
+        $('#huiInput').find('i').each(function () {
+                if($(this).parent().prev()[0].checked==true){
+                    $(this).addClass('huiinput')
+                }
+            })
+
+
+        //原开行规律表格样式
+        $('#tanTable').next().children('.layui-table-box').css({
+            marginLeft:20
+        })
+        var $tmain=$('#tanTable').next().children().children('.layui-table-body')
+        $tmain.addClass('scrollHidden')
+
+        // console.log(  $('#tanTable').next().children().children('.layui-table-body').children().children().children);
+        $tmain.on('click','tr',function () {
+            $(this).addClass('bordercolor').siblings().removeClass('bordercolor')
+
+        })
+        $('.lanInput').delegate("i", "click", function(){
+            $(this).toggleClass("laninput");
+        });
+        $('.lanInput').delegate("span", "click", function(){
+            $(this).next().toggleClass("laninput");
+        });
+
+            // $('.layui-form-radio>i').click(function () {
+            //     var $tar=$(this)
+            //     var $div=$tar.next()
+            //     if($div.text()=='任意日期'){
+            //         $('.tab1').show()
+            //         $('.tab2').hide()
+            //     }else if($div.text()=='任意周期'){
+            //
+            //         $('.tab2').show()
+            //         $('.tab1').hide()
+            //     }else {
+            //         $('.tab2').hide()
+            //         $('.tab1').hide()
+            //     }
+            // })
+            // $(".layui-form-radio div").click(function () {
+            //     var $tar=$(this)
+            //
+            //     if($tar.text()=='任意日期'){
+            //
+            //         $('.tab1').show()
+            //         $('.tab2').hide()
+            //     }else if($tar.text()=='任意周期'){
+            //
+            //         $('.tab2').show()
+            //         $('.tab1').hide()
+            //     }else {
+            //         $('.tab2').hide()
+            //         $('.tab1').hide()
+            //     }
+            // })
+
+
+
+    })
+</script>
+
+<!--主体JS-->
+<script>
+    var form ;
+    layui.use(['form','laydate','table'], function () {
+        // var index = parent.layer.getFrameIndex(window.name)
+        // layer.iframeAuto(index)
+        form = layui.form;
+        var laydate = layui.laydate;
+        var table = layui.table;
+        form.render('radio')
+        //日期
+        laydate.render({
+            elem: '#test1'
+        });
+        laydate.render({
+            elem: '#test2'
+        });
+        // 弹窗表格渲染
+        table.render({
+            elem: '#tanTable',
+            url: '../table.json', //数据接口
+            text: {
+                none: '暂无相关数据' //默认：无数据。注：该属性为 layui 2.2.5 开始新增
+            },
+            page: {
+                //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                layout: ['prev', 'page', 'next'] //自定义分页布局
+                //,curr: 5 //设定初始在第 5 页
+                ,groups: 3 //只显示 1 个连续页码
+                ,first:'首页' //不显示首页
+                ,last: '尾页' //不显示尾页
+
+
+            }, //开启分页
+            limit: 15,
+            cellMinWidth: 80,
+
+            cols: [
+                [ //表头
+                    {
+                        field: 'time',
+                        title: '开点日期',
+                    },
+                    {
+                        title: '操作',
+                        align:'center',
+                        toolbar: '#tanoption'
+                    }
+
+                ]
+            ],
+            id: 'tandetail'
+        });
+    });
+
+    function current_render () {
+
+        form.render();
+
+        $('#huiInput').find('i').each(function () {
+            if($(this).parent().prev()[0].checked==true){
+                $(this).addClass('huiinput')
+            }
+        })
+
+    }
+
+
+</script>
+</html>

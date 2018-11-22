@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="../plugins/layui/css/layui.css" />
+		<link rel="stylesheet" href="../build/css/common.css" />
+	</head>
+	<style>
+		.main {
+			margin: 40px 0 0 60px;
+			text-align: center;
+		}
+	</style>
+
+	<body>
+		<div class="main">
+			<form class="layui-form" action="">
+				<div class="layui-form-item">
+					<label for="" class="layui-form-label">版本名称:</label>
+					<input type="text" id="versionname" class='common-input ' lay-verify="required" />
+				</div>
+				<div class="layui-form-item">
+					<label for="" class="layui-form-label">备注信息:</label>
+					<input value="" type="text" name="remark" id="remark" class='common-input' lay-verify="required" />
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">开始时间:</label>
+					<input type="text" id="start" name="title" required lay-verify="required" placeholder="请选择开始时间" autocomplete="off" class="common-input ">
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">截至时间:</label>
+					<input type="text" name="title" id="end" required lay-verify="required" placeholder="请选择截至时间" autocomplete="off" class="common-input ">
+				</div>
+			</form>
+			<div class="layui-btn-group">
+				<button class="layui-btn common-btn " id="save-btn" lay-submit>保存</button>
+				<button class="layui-btn common-btn close-btn" style="margin-left: 10px !important;">返回</button>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../build/js/jquery-2.1.0.js"></script>
+	<script type="text/javascript" src="../plugins/layui/layui.js"></script>
+	<script type="text/javascript" src="../build/js/jquery.cookie.js"></script>
+	<script>
+		layui.use(["laydate", "layer", "form"], function() {
+			var laydate = layui.laydate;
+			var layer = layui.layer;
+			var form = layui.form
+			var index = layer.getFrameIndex(window.name)
+
+			laydate.render({
+				elem: '#start', //时间选择
+				showBottom: false,
+				done: function(value) {
+
+				}
+			});
+			laydate.render({
+				elem: '#end', //时间选择
+				showBottom: false,
+				done: function(value) {
+
+				}
+			});
+
+			$("#save-btn").click(function() {
+				var versionname = $("#versionname").val();
+				var remark = $("#remark").val();
+				var starttime = $("#start").val();
+				var endtime = $("#end").val();
+				var username = $.cookie("username");
+				$.ajax({
+					type: "post",
+					url: "http://10.133.10.204/HOME/CreateTransfer",
+					async: true,
+					data: {
+						editions: versionname,
+						remark: remark,
+						user: username,
+						startDate: starttime,
+						endDate: endtime
+					},
+					success: function(data) {
+						if(data.msg == "创建成功") {
+							layer.msg(data.msg, {
+								time: 500
+							})
+							setTimeout(function() {
+								parent.layer.closeAll();
+
+								parent.location.href = "data-management.html"
+							}, 500);
+						} else {
+							layer.msg(data.msg)
+						}
+					}
+				});
+			})
+
+			$(".close-btn").click(function() {
+				parent.layer.closeAll();
+			})
+
+		})
+	</script>
+
+</html>

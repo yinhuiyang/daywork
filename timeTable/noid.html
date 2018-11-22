@@ -1,0 +1,112 @@
+                                                                                         <!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="../build/css/common.css" />
+		<link rel="stylesheet" href="../plugins/layui/css/layui.css" media="all">
+	</head>
+	<style>
+		html {
+			background: #f3f3f3;
+			padding: 20px;
+			height: 100%;
+		}
+		
+		body {
+			padding: 20px;
+			background: #FFFFFF;
+			border-radius: 10px;
+			overflow-y: scroll;
+			height: 80%;
+			box-shadow: 0 2px 6px rgba(100, 100, 100, 0.3);
+		}
+		
+		table {
+			overflow-y: scroll;
+		}
+		
+		.layui-table-cell {
+			min-width: 68px !important;
+		}
+		/*#layui-layer1 {
+			width: 156px !important;
+		}*/
+		
+		.search-form .layui-form {
+			display: flex;
+		}
+		
+		.search-form .layui-form-select .layui-input {
+			border-radius: 4px;
+			border-color: #cac1c2 !important;
+			height: 38px !important;
+			min-width: 140px;
+			height: 36px;
+			padding: 0 10px;
+		}
+		
+		.click {
+			background: #c5c6c8 !important;
+		}
+		
+		.sortable-ghost {
+			opacity: 0.4;
+			background-color: #46d0fe !important;
+		}
+		
+		.layui-layer-iframe {
+			border-top-left-radius: 10px !important;
+			border-top-right-radius: 10px !important;
+		}
+		
+		.layui-layer-content {
+			background-color: #F8F8F8 !important;
+		}
+	</style>
+
+	<body>
+		<div class="layui-form" style="text-align: center;">
+			<div class="layui-form-item " style="margin: 0 auto; width: 40%;">
+				<select id="version" lay-verify="required" lay-search>
+					<option value="">请选择调图版本号</option>
+				</select>
+			</div>
+			<button class="layui-btn common-btn version-btn" style="margin-top: 15%;">确认</button>
+		</div>
+
+	</body>
+	<script type="text/javascript" src="../build/js/jquery-2.1.0.js"></script>
+	<script type="text/javascript" src="../plugins/layui/layui.all.js"></script>
+	<script>
+		//添加关联车站
+		function renderForm() {
+			layui.use('form', function() {
+				var form = layui.form;
+				form.render();
+			});
+		}
+		$.ajax({
+			type: "post",
+			url: "http://10.133.10.204/HOME/GetAllTransfer",
+			async: true,
+			success: function(data) {
+				for(var i = 0; i < data.data.length; i++) {
+					$("#version").append("<option value='" + data.data[i].Editions + "'>" + data.data[i].Editions + "</option>");
+					renderForm(); //添加完成之后需要重新渲染
+				}
+				$(".version-btn").click(function(){
+					for (var i = 0; i < data.data.length; i++) {
+					if($("#version").val()==data.data[i].Editions){
+						sessionStorage.setItem("transferGuidId",data.data[i].GuidId);
+						window.location.href="timetable-management.html?GuiId="+data.data[i].GuidId
+					}
+				    }
+				})
+				
+			}
+		});
+		
+	</script>
+</html>

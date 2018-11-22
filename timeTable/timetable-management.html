@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>时刻表管理</title>
+		<link rel="stylesheet" href="../build/css/common.css" />
+		<link rel="stylesheet" href="../plugins/layui/css/layui.css" media="all">
+	</head>
+	<style>
+		html {
+			background: #f3f3f3;
+			padding: 20px;
+		}
+		
+		body {
+			padding: 20px;
+			background: #FFFFFF;
+			border-radius: 10px;
+			overflow-y: scroll;
+			box-shadow: 0 2px 6px rgba(100, 100, 100, 0.3);
+		}
+		
+		table {
+			overflow-y: scroll;
+		}
+		
+		.layui-table-cell {
+			min-width: 68px !important;
+		}
+		/*#layui-layer1 {
+			width: 156px !important;
+		}*/
+		
+		.search-form .layui-form {
+			display: flex;
+			font-size:12px !important;
+		}
+		.search-form .layui-form .layui-btn{
+			padding:0 10px;
+		}
+		.search-form .layui-form-select .layui-input {
+			border-radius: 4px;
+			border-color: #cac1c2 !important;
+			height: 38px !important;
+			min-width: 140px;
+			height: 36px;
+			padding: 0 10px;
+		}
+		
+		.click {
+			background: #c5c6c8 !important;
+		}
+		
+		.sortable-ghost {
+			opacity: 0.4;
+			background-color: #46d0fe !important;
+		}
+		
+		.layui-layer-iframe {
+			border-top-left-radius: 10px !important;
+			border-top-right-radius: 10px !important;
+		}
+		
+		
+		
+		.layui-table-edit {
+			/*width: auto !important;*/
+			z-index: 10000 !important;
+			word-break: break-all !important;
+			word-wrap: break-word !important;
+		}
+		.layui-table th{
+		   border:1px solid #e1e1e1 !important; 
+		}
+		.layui-table-header{
+		  background:none;
+		}
+		.layui-table tbody tr td{
+		 border:1px solid #e6e6e6
+		}
+	</style>
+
+	<body>
+		<div class="search-form">
+			<div class="layui-form" lay-filter="as">
+				<input style="width: 4%;margin-left: 10px;margin-right: 0;" id="start" type="text" id="demoReload" class="layui-input-block common-input" placeholder="始发站" />
+				<input style="width: 4%;margin-left: 10px;margin-right: 0;" id="end" type="text" id="demoReload" class="layui-input-block common-input" placeholder="终到站" />
+				<input style="width: 8%;margin-left: 10px;" type="text" id="demoReload" class="layui-input-block common-input" placeholder="车次、编组、定员" />
+				<div class="layui-form-item " >
+					<select id="site" lay-verify="required" lay-search >
+						<option value="">请选择关联站点</option>
+					</select>
+				</div>
+				<div class="layui-form-item " style="margin-left: 20px;" >
+					<select id="type" lay-verify="required" lay-search >
+						<option value="">请选择列车类型</option>
+
+					</select>
+				</div>
+				<button data-type="reload" class="layui-btn common-btn search-btn" style="margin-left: 20px; font-family:inherit"><i class="layui-icon layui-icon-search"></i>查询</button>
+				<button class="layui-btn common-btn  save" style="margin-right: 0px;">保存</button>
+				<button class="layui-btn common-btn filesave" style="margin-right: 0px;"><i class="layui-icon layui-icon-upload-drag"></i>导出本地</button>
+				
+				
+				<!--<button class="layui-btn common-btn release" style="margin-right: 0px;"><i class="layui-icon layui-icon-tabs"></i>下达作业计划表</button>-->
+				<button class="layui-btn common-btn " style="margin-right: 0px;"><a href="noid.html" style="color: #FFFFFF;">返回</a></button>
+				<button class="layui-btn common-btn edit" style="margin-right: 0px;"><i class="layui-icon layui-icon-tabs"></i>编辑</button>
+				<button class="layui-btn common-btn fileupload" id="fileupload" style="margin-right: 0px;"><i class="layui-icon layui-icon-upload-drag"></i>回导</button>
+			</div>
+		</div>
+		<table id="table" class="layui-table" lay-filter="test">
+
+		</table>
+		<button class="layui-btn common-btn  count" style="margin-left:70% ;" ></button>
+		<button class="layui-btn common-btn  go" style=" ">返回顶部</button>
+	</body>
+
+	<script type="text/javascript" src="../build/js/jquery-2.1.0.js"></script>
+	<script type="text/javascript" src="../build/js/Sortable.js"></script>
+	<script type="text/javascript" src="../build/js/jquery.table2excel.js"></script>
+	<script type="text/javascript" src="../plugins/layui/layui.all.js"></script>
+	<script type="text/html" id="barDemo">
+		<a class="layui-btn layui-btn-xs common-btn" lay-event="detail">编辑</a>
+		<a class="layui-btn layui-btn-xs common-btn" lay-event="del">删除</a>
+		<a class="layui-btn layui-btn-xs common-btn" lay-event="review">审核</a>
+	</script>
+	<script type="text/javascript" src="../build/js/blob.js"></script>
+	<script type="text/javascript" src="../build/js/jquery.cookie.js"></script>
+	<script type="text/javascript" src="../build/js/filesave.js"></script>
+	<script type="text/javascript" src="../build/js/jquery.cookie.js"></script>
+	<script>
+		var url_data = window.location.search;
+		var url_arr = url_data.split("=");
+		var GuiId = url_arr[1]
+		var str = sessionStorage.getItem("transferGuidId")
+		var username = $.cookie("username")
+		var flag = true;
+		layui.use(['table', 'layer',"flow","upload",'form'], function() {
+			var table = layui.table;
+			var layer = layui.layer;
+			var flow = layui.flow;
+			var form = layui.form;
+			var upload = layui.upload;
+			var index = layer.load(1, {
+				shade: [0.1, '#fff'],
+				offset: ['154px', '650px'] //0.1透明度的白色背景
+			});
+			
+			
+
+
+          //页面编辑表格功能
+			table.on('edit(test)', function(obj) {
+				var value = obj.value //得到修改后的值
+					,
+					data = obj.data //得到所在行所有键值
+					,
+					field = obj.field; //得到字段
+				var keyvalue = {};
+				key = field;
+				val = value;
+				var GuiId = data.GuidId;
+				if(key=="JS"){
+					key = "taskName";
+				var str1 = $(this).val();
+				var str2 = $(this).parent().next().children("div").text();
+				var str3 = $(this).parent().next().next().children("div").text();
+				var str_task = str1 + ";" + str2 + ";" + str3;
+				
+				val = str_task
+				}else if(key=="XW"){
+					key = "taskName";
+				var str2 = $(this).val();
+				var str3 = $(this).parent().next().children("div").text();
+				var str1 = $(this).parent().prev().children("div").text();
+				var str_task = str1 + ";" + str2 + ";" + str3;
+				
+				val = str_task
+					
+				}else if(key=="XYB"){
+					key = "taskName";
+				var str3 = $(this).val();
+				var str1 = $(this).parent().prev().prev().children("div").text();
+				var str2 = $(this).parent().prev().children("div").text();
+				var str_task = str1 + ";" + str2 + ";" + str3;
+				
+				val = str_task
+					
+				}else if(key=="TrainNum"){
+					key = "trainNum"
+				}
+				else if(key=="Capacity"){
+					key = "capacity"
+				}
+				else if(key=="Platform"){
+					key = "platform"
+				}
+				else if(key=="ArrivePoint"){
+					key = "arrivePoint"
+				}
+				else if(key=="OpenPoint"){
+					key = "openPoint"
+				}
+				else if(key=="StopStations"){
+					key = "stopStations"
+				}
+				else if(key=="StartStation"){
+					key = "startAddress"
+				}
+				else if(key=="EndStation"){
+					key = "arriveAddress"
+				}
+				else if(key=="Marshalling"){
+					key = "marshing"
+				}
+				else if(key=="TakeOn"){
+					key = "underTake"
+				}
+				else if(key=="Remark"){
+					key = "remark"
+				}
+				else if(key=="TrainDirection"){
+					key = "trainDirection"
+				}
+				else if(key=="TrainLogarithm"){
+					key = "trainLogarithm"
+				}
+				
+				keyvalue[key] = val; 
+				
+				$(".layui-table-edit").blur(function() {
+					$.ajax({
+						type: "post",
+						url: "http://10.133.10.204/HOME/UpdateTimeTable?guidId=" + GuiId,
+						async: true,
+						data:keyvalue,
+						success: function(data) {
+							
+						}
+					});
+				})
+
+			})
+			//第一个实例 渲染表格
+		
+			    var keyword = $("#demoReload").val();
+				var start = $("#start").val();
+				var end = $("#end").val();
+				var aboutStation = $("#site option:selected").val();
+				var trainType = $("#type option:selected").val();
+				$.cookie("aboutStation",aboutStation)
+				$.cookie("trainType",trainType)
+				var as = $.cookie("aboutStation");
+				var tt = $.cookie("trainType");
+				$("#site ").val(as);
+				$("#type ").val(tt);
+				form.render('select');
+				table.render({
+					response: {
+						separator: '.',
+						code: 0,
+						ret: "success",
+						msg: "获取成功",
+						dataName: 'data'
+					},
+					elem: '#table',
+					method: 'post',
+					url: 'http://10.133.10.204/HOME/GetTimeTableQ?loginName='+username+'&transferGuidId=' + GuiId + '&keyword=' + keyword + '&aboutStation=' + as + '&trainType=' + tt + '&startStation=' + start + '&endStation=' + end, 
+				text: {
+					none: '暂无相关数据' //默认：无数据。
+				},
+				page:true,
+				request: {
+					pageName: "pageIndex" //页码的参数名称，默认：page
+						,
+					limitName: 'pageSize' //每页数据量的参数名，默认：limit
+				},
+				limit: 100,
+				limits: [5, 15, 30, 45, 60],
+				cols: [
+					[ //表头
+						{
+							field: 'TrainNum',
+							title: '车次',
+							sort: true,
+							width: "9%",
+							
+
+						}, {
+							field: 'StartStation',
+							title: '始发',
+							sort: true,
+							width: "6%",
+
+						},
+						{
+							field: 'EndStation',
+							title: '终到',
+							sort: true,
+							width: "6%",
+
+						},
+						{
+
+							field: 'ArrivePoint',
+							title: '到点',
+							sort: true,
+							width: "5%",
+
+						},
+						{
+							field: 'OpenPoint',
+							title: '开点',
+							sort: true,
+							width: "5%",
+
+						}, {
+							field: 'Platform',
+							title: '站台',
+							sort:true,
+							width: "5%",
+
+						}, {
+							field: 'Marshalling',
+							title: '编组',
+							sort:true,
+							width: "5%",
+
+						}, 
+						
+							{
+								field: 'Capacity',
+								title: '定员',
+								width: "5%"
+							},
+						{
+							field: 'TakeOn',
+							title: '担当',
+							width: "5%",
+
+						},
+						{
+							field: 'JS',
+							title: '加水',
+							width: "5%",
+
+						},
+						{
+							field: 'XW',
+							title: '吸污',
+							width: "5%",
+
+						},
+						{
+							field: 'XYB',
+							title: '行邮包',
+							width: "6%",
+
+						},
+						{
+							field: 'Remark',
+							title: '备注',
+							width: "7%",
+
+						},
+						{
+							field: 'StopStations',
+							title: '沿途停靠站',
+							width: "10%",
+
+						}, {
+							title: '操作',
+							align: 'center',
+							width: "14%",
+							fixed: 'right',
+							toolbar: '#barDemo'
+						}
+
+					]
+				],
+				done: function() {  //渲染完的回调
+					layer.closeAll()
+					var arr2 = [];
+					var arr3 = [];
+					
+				}
+
+			});
+		
+					
+			//表格弹窗事件
+			$(".release").click(function() {
+				layer.open({
+					title: '选择起始时间',
+					type: 2,
+					area: ["400px", "400px"],
+					content: "update.html",
+					btn: ["确定", "返回"],
+					btn1: function() {
+
+					}, //点击保存按钮的回调
+					btn2: function() {
+						layer.close(layer.index)
+					}
+				})
+			})
+            //数据总数
+			$.ajax({
+			type: "post",
+			url: 'http://10.133.10.204/HOME/GetTimeTableQ?loginName='+username+'&transferGuidId=' + GuiId + '&keyword=' + keyword + '&aboutStation=' + as + '&trainType=' + tt + '&startStation=' + start + '&endStation=' + end, 
+			async: true,
+			success: function(data) {
+				str = "共有"+data.count+"条数据"
+				$(".count").text(str)
+			}
+		});
+		    //查询
+			function search(){
+				var keyword = $("#demoReload").val();
+				var start = $("#start").val();
+				var end = $("#end").val();
+				var aboutStation = $("#site option:selected").val();
+				var trainType = $("#type option:selected").val();
+				$.cookie("aboutStation",aboutStation)
+				$.cookie("trainType",trainType)
+				var as = $.cookie("aboutStation");
+				var tt = $.cookie("trainType")
+				
+				$.ajax({
+			type: "post",
+			url: 'http://10.133.10.204/HOME/GetTimeTableQ?loginName='+username+'&transferGuidId=' + GuiId + '&keyword=' + keyword + '&aboutStation=' + as + '&trainType=' + tt + '&startStation=' + start + '&endStation=' + end, 
+			async: true,
+			success: function(data) {
+				str = "共有"+data.count+"条数据"
+				console.log(data)
+				$(".count").text(str)
+			}
+		});
+				
+				var index1 = layer.load(1, {
+				shade: [0.1, '#fff'],
+				offset: ['154px', '650px'] //0.1透明度的白色背景
+				});
+				var keyword = $("#demoReload").val();
+				var start = $("#start").val();
+				var end = $("#end").val();
+				var aboutStation = $("#site option:selected").val();
+				console.log(aboutStation)
+				var trainType = $("#type option:selected").val();
+				table.render({
+					response: {
+						separator: '.',
+						code: 0,
+						ret: "success",
+						msg: "获取成功",
+						dataName: 'data'
+					},
+					elem: '#table',
+					method: 'post',
+					url: 'http://10.133.10.204/HOME/GetTimeTableQ?loginName='+username+'&transferGuidId=' + GuiId + '&keyword=' + keyword + '&aboutStation=' + aboutStation + '&trainType=' + trainType + '&startStation=' + start + '&endStation=' + end, //数据接口
+					text: {
+						none: '暂无相关数据' //默认：无数据。
+					},
+					request: {
+						pageName: 'pageIndex' //页码的参数名称，默认：page
+							,
+						limitName: 'pageSize' //每页数据量的参数名，默认：limit
+					},
+				
+					limit: 1000,
+					edit: "text",
+					limits: [5, 15, 30, 45, 60], //开启分页
+					cols: [
+						[ //表头
+							{
+							field: 'TrainNum',
+							title: '车次',
+							sort: true,
+							width: "9%",
+
+						}, {
+							field: 'StartStation',
+							title: '始发',
+							sort: true,
+							width: "6%",
+
+						},
+						{
+							field: 'EndStation',
+							title: '终到',
+							sort: true,
+							width: "6%",
+
+						},
+						{
+
+							field: 'ArrivePoint',
+							title: '到点',
+							sort: true,
+							width: "5%",
+
+						},
+						{
+							field: 'OpenPoint',
+							title: '开点',
+							sort: true,
+							width: "5%",
+
+						}, {
+							field: 'Platform',
+							title: '站台',
+							width: "5%",
+
+						}, {
+							field: 'Marshalling',
+							title: '编组',
+							width: "5%",
+
+						}, 
+						
+							{
+								field: 'Capacity',
+								title: '定员',
+								width: "5%"
+							},
+						{
+							field: 'TakeOn',
+							title: '担当',
+							width: "5%",
+
+						},
+						{
+							field: 'JS',
+							title: '加水',
+							templet: '#AddWater',
+							width: "5%",
+
+						},
+						{
+							field: 'XW',
+							title: '吸污',
+							templet: '#Fouling',
+							width: "5%",
+
+						},
+						{
+							field: 'XYB',
+							title: '行邮包',
+							templet: '#ParcelLine',
+							width: "6%",
+
+						},
+						{
+							field: 'Remark',
+							title: '备注',
+							width: "7%",
+
+						},
+						{
+							field: 'StopStations',
+							title: '沿途停靠站',
+							width: "10%",
+
+						}, {
+							title: '操作',
+							align: 'center',
+							width: "14%",
+							fixed: 'right',
+							toolbar: '#barDemo'
+						}
+
+
+						]
+					],
+					done: function() {
+						var arr2 = [];
+						layer.closeAll()
+						
+					}
+				});
+				$("tbody").attr("id", 'foo')
+				Sortable.create(document.getElementById('foo'), {
+					animation: 150
+				});
+				}
+			//键盘查询
+			$(document).ready(function(e) {
+				$(this).keydown(function (e){
+				if(e.which == "13"){
+				search();
+				}
+				})
+			});
+			//	点击查询事件
+			$('.search-btn').on('click', function () {
+			   search();
+			});
+		
+
+			//	表格事件
+			table.on('tool(test)', function(obj) {
+				var data = obj.data;
+				var str = obj.GuidId;
+
+				if(obj.event === 'detail') {
+					window.location.href = "timetable-management-detail.html?guidId=" + obj.data.GuidId
+				} else if(obj.event === 'del') {
+					layer.confirm('真的删除行么', function(index) {
+						obj.del(obj.data.GuidId); //删除对应行（tr）的DOM结构，并更新缓存
+						layer.close(index);
+						$.ajax({
+							type: "post",
+							url: 'http://10.133.10.204/HOME/DeleteTimeTable?guidId=' + obj.data.GuidId,
+							async: true,
+							success: function(data) {
+								layer.msg("删除成功", {
+									icon: 1,
+									time: 1000
+								})
+								window.location.href = "timetable-management.html"
+							},
+							error: function() {
+								layer.msg("删除失败", {
+									icon: 2,
+									time: 1000
+								})
+							}
+						});
+
+					});
+				} else if(obj.event === 'review') {
+					flag = !flag
+					if(flag == false) {
+						if($(this).hasClass("click")) {
+							$(this).removeClass("click");
+							$(this).text("未审核");
+						} else {
+							$(this).addClass("click");
+							$(this).text("已审核")
+						}
+					} else {
+						if($(this).hasClass("click")) {
+							$(this).removeClass("click");
+							$(this).text("未审核");
+						} else {
+							$(this).addClass("click");
+							$(this).text("已审核")
+						}
+					}
+				}
+			});
+
+			//	表格行拖动		
+			$(document).ready(function drug() {
+				$("tbody").attr("id", 'foo') //id可以随意选择
+				Sortable.create(document.getElementById('foo'), {
+					animation: 150
+				});
+			})
+			
+			//一键保存（其实是假的，输入框失去焦点的时候已经保存了）
+			$(".save").click(function(){
+				if($("#foo td").attr("data-edit")=="text"){
+					$("#foo td").removeAttr("data-edit")
+					var index = layer.load(1, {
+					shade: [0.7, '#fff'],
+					offset: ['154px', '650px'],
+					time:500//0.1透明度的白色背景
+					});
+					setTimeout(function(){
+					layer.msg("修改成功",{
+						time:500,
+					})
+					location.reload()
+				},500)
+				}else{
+					layer.msg("未开启表格编辑",{
+						time:500,
+					})
+				}
+			})
+			$(".edit").click(function() {
+			$("#foo td").attr("data-edit", "text");
+			layer.msg("已开启表格编辑",{
+						time:500,
+					})
+			})
+			
+			$("#fileupload").click(function(){
+				  layer.open({
+				  	title: '回导时刻表表',
+				  	type: 2,
+				  	area: ["400px", "200px"],
+				  	content: "updata.html",
+				  })
+			})
+			//判断滚动条的位置
+			
+			$(window).scroll(function(){
+			 var top = $(window).scrollTop();
+			
+			 if(top>=100){
+			     $('.search-form .layui-form').css("position","fixed");
+				 $('.search-form .layui-form').css("top","0px");
+				 $('.search-form .layui-form').css("height","60px");
+				 $('.search-form .layui-form').css("z-index","2000");
+				 $('.search-form .layui-form').css("width","93%");
+				 $('.search-form .layui-form').css("background","#ffffff");
+				 $("thead").css("position","fixed");
+				 $("thead").css("top","60px");
+				 $("thead").css("z-index","1999")
+			 }else{
+				 $("thead").css("position","");
+				 $("thead").css("top","");
+				 $("thead").css("z-index","");
+				 $('.search-form .layui-form').css("position","");
+				 $('.search-form .layui-form').css("top","");
+				 $('.search-form .layui-form').css("z-index","");
+				  $('.search-form .layui-form').css("width","100%");
+			 }
+			});
+			
+		});
+		//导出本地
+		$(".filesave").click(function() {
+			var download = "http://10.133.10.204/HOME/ExpertTimeTable?transferGuidId=" + str;
+			$.ajax({
+				type: "post",
+				url: download,
+				async: true,
+				success: function(data) {
+					var url = data.url
+					location.href = "http://"+ url
+				}
+			});
+		});
+		//回导入
+		
+		
+		//添加关联车站
+		function renderForm() {
+			layui.use('form', function() {
+				var form = layui.form;
+				form.render();
+			});
+		}
+		$.ajax({
+			type: "post",
+			url: "http://10.133.10.204/HOME/GetStationDeptName",
+			async: true,
+			success: function(data) {
+				for(var i = 0; i < data.data.length; i++) {
+					$("#site").append("<option value='" + data.data[i].detpName + "'>" + data.data[i].detpName + "</option>");
+					renderForm(); //添加完成之后需要重新渲染
+				}
+			}
+		});
+		//添加列车类型
+		
+		$.ajax({
+			type: "post",
+			url: "http://10.133.10.204/HOME/GetAllTrainType",
+			async: true,
+			success: function(data) {
+				for(var i = 0; i < data.data.length; i++) {
+					$("#type").append("<option value='" + data.data[i] + "'>" + data.data[i] + "</option>");
+					renderForm(); //添加完成之后需要重新渲染
+				}
+			}
+		});
+
+		//返回顶部
+		$(function(){
+    $(window).scroll(function(){ //scroll--浏览器滚动条滚动式触发
+        var wHeight=$(window).height(); //获取浏览器可视窗口高度
+        var wTop=$(window).scrollTop(); //获取滚动条距离顶部高度
+        if(wTop>=wHeight) //当滚动条距离顶部高度超过一屏时执行
+        {
+           $(".go").show(); //返回顶部按钮显示
+        }
+        else{
+           $(".go").hide(); //返回顶部按钮隐藏
+        }
+      });
+      $(".go").click(function(){
+          $("html,body").animate({scrollTop:0},500); //页面500毫秒返回顶部
+      });
+ });
+		
+	</script>
+
+</html>

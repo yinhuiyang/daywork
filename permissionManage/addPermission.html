@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>新增角色</title>
+		<link rel="stylesheet" href="../plugins/layui/css/layui.css">
+		<link rel="stylesheet" href="../build/css/common.css" />
+		<script src="../build/js/jquery-2.1.0.js"></script>
+
+		<style>
+			html {
+				background: #f3f3f3;
+				padding: 20px;
+			}
+			
+			body {
+				padding: 20px;
+				background: #FFFFFF;
+				border-radius: 10px;
+				overflow-y: scroll;
+				box-shadow: 0 2px 6px rgba(100, 100, 100, 0.3);
+			}
+			
+			.ul-title>li {
+				margin: 10px 0 0 0;
+			}
+			
+			.ul-title>li>input {
+				margin-left: 34px;
+				margin-bottom: 10px;
+			}
+			
+			li {
+				margin: 10px 0;
+				list-style: none;
+			}
+			
+			#i1 {
+				width: 200px !important;
+			}
+			
+			#i2 {
+				width: 200px !important;
+			}
+			
+			.layui-layer-dialog .layui-layer-content {
+				padding: 20px 50px !important;
+				background-color: #FFFFFF !important;
+			}
+			
+			.layui-layer-title {
+				color: #FFFFFF !important;
+				background-image: url(../images/he-bg.png);
+				background-repeat: no-repeat;
+				border-top-left-radius: 10px !important;
+				border-top-right-radius: 10px !important;
+				background-color: #FFFFFF !important;
+			}
+			
+			.layui-layer-dialog {
+				border-top-left-radius: 0px !important;
+				border-top-right-radius: 0px !important;
+			}
+			
+			.select-ul {
+				border: 1px solid #cac1c2 !important;
+				border-radius: 4px !important;
+			}
+			
+			.ul-content {
+				background-color: #f9f9f9;
+				border: 1px solid #cac1c2;
+				text-align: center;
+				height: 200px;
+			}
+			
+			.layui-input-inline {
+				float: none !important;
+			}
+			
+			.ul-main {
+				display: flex !important;
+			}
+			
+			.special-input {
+				margin-left: 14px;
+			}
+			
+			.special-input-2 {
+				margin-left: 28px;
+			}
+			
+			input[type="checkbox"] {
+				width: 20px;
+				height: 20px;
+				display: inline-block;
+				text-align: center;
+				vertical-align: middle;
+				line-height: 18px;
+				position: relative;
+			}
+			input[type="checkbox"]:indeterminate{
+				content: "\2713";
+				background-color: #229dfd;
+				border: 1px solid #74c0fc;
+				color: #FFFFFF;
+				font-size: 20px;
+				font-weight: bold;	
+			}
+			
+			input[type="checkbox"]:checked::before {
+				content: "\2713";
+				background-color: #229dfd;
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				border: 1px solid #74c0fc;
+				color: #FFFFFF;
+				font-size: 20px;
+				font-weight: bold;
+				border-radius:4px ;
+			}
+		</style>
+	</head>
+
+	<body>
+		<form id="myForm" action="" method="post">
+			<div class="layui-form-item">
+				<label class="layui-form-label">角色名称</label>
+				<div class="layui-input-block">
+					<input name="rolename" placeholder="请输入角色名称" id="i1" type="text" class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-form-item ul-main">
+				<label class="layui-form-label">操作权限</label>
+				<div class="layui-input-inline select-ul">
+					<ul class="ul-title">
+						<li>
+							<input type="checkbox" name="data" id="short">
+							<label for="short">数据管理</label>
+							<ul class="ul-content">
+								<li>
+									<input type="checkbox" name="sj" id="short-1" value="add1">
+									<label for="short-1">增加</label>
+								</li>
+								<li>
+									<input type="checkbox" name="sj" id="short-2" value="del1">
+									<label for="short-2">删除</label>
+								</li>
+								<li>
+									<input type="checkbox" name="sj" id="short-3" value="modify1">
+									<label for="short-3">修改</label>
+								</li>
+								<li>
+									<input type="checkbox" name="sj" id="short-4" value="detail1">
+									<label for="short-4">查看</label>
+								</li>
+							</ul>
+						</li>
+					</ul>
+
+				</div>
+
+				<div class="layui-input-inline select-ul">
+					<ul class="ul-title">
+						<li>
+							<input type="checkbox" name="short" id="short" class="special-input">
+							<label for="short">时刻表管理</label>
+							<ul class="ul-content">
+								<li>
+									<input type="checkbox" name="sk" id="short-1" value="add2">
+									<label for="short-1">增加</label>
+								</li>
+								<li>
+									<input type="checkbox" name="sk" id="short-2" value="del2">
+									<label for="short-2">删除</label>
+								</li>
+								<li>
+									<input type="checkbox" name="sk" id="short-3" value="modify2">
+									<label for="short-3">修改</label>
+								</li>
+								<li>
+									<input type="checkbox" name="sk" id="short-4" value="detail2">
+									<label for="short-4">查询</label>
+								</li>
+							</ul>
+						</li>
+
+					</ul>
+
+				</div>
+
+				<div class="layui-input-inline select-ul">
+					<ul class="ul-title">
+						<li>
+							<input type="checkbox" name="short" id="short"  class="special-input">
+							<label for="short">作业计划表</label>
+							<ul class="ul-content">
+								<li>
+									<input type="checkbox" name="zy" id="short-1" value="add3">
+									<label for="short-1">增加</label>
+								</li>
+								<li>
+									<input type="checkbox" name="zy" id="short-2" value="del3">
+									<label for="short-2">删除</label>
+								</li>
+								<li>
+									<input type="checkbox" name="zy" id="short-3" value="modify3">
+									<label for="short-3">修改</label>
+								</li>
+								<li>
+									<input type="checkbox" name="zy" id="short-4" value="detail3">
+									<label for="short-4">查询</label>
+								</li>
+							</ul>
+						</li>
+					</ul>
+
+				</div>
+				
+				<div class="layui-input-inline select-ul">
+					<ul class="ul-title">
+						<li>
+							<input type="checkbox" name="short" id="short"  class="special-input">
+							<label for="short">每日一表</label>
+							<ul class="ul-content">
+								<li>
+									<input type="checkbox" name="mr" id="short-1" value="add4">
+									<label for="short-1">增加</label>
+								</li>
+								<li>
+									<input type="checkbox" name="mr" id="short-2" value="del4">
+									<label for="short-2">删除</label>
+								</li>
+								<li>
+									<input type="checkbox" name="mr" id="short-3" value="modify4">
+									<label for="short-3">修改</label>
+								</li>
+								<li>
+									<input type="checkbox" name="mr" id="short-4" value="detail4">
+									<label for="short-4">查询</label>
+								</li>
+							</ul>
+						</li>
+					</ul>
+
+				</div>
+				
+				<div class="layui-input-inline select-ul">
+					<ul class="ul-title">
+						<li>
+							<input type="checkbox" name="short" id="short"  class="special-input">
+							<label for="short">差异对比</label>
+							<ul class="ul-content">
+								<li>
+									<input type="checkbox" name="cy" id="short-1" value="add5">
+									<label for="short-1">增加</label>
+								</li>
+								<li>
+									<input type="checkbox" name="cy" id="short-2" value="del5">
+									<label for="short-2">删除</label>
+								</li>
+								<li>
+									<input type="checkbox" name="cy" id="short-3" value="modify5">
+									<label for="short-3">修改</label>
+								</li>
+								<li>
+									<input type="checkbox" name="cy" id="short-4" value="detail5">
+									<label for="short-4">查询</label>
+								</li>
+							</ul>
+						</li>
+					</ul>
+					
+				</div>
+			</div>
+				
+				<div class="layui-form-item ul-main">
+					<label class="layui-form-label"></label>
+					
+				<div class="layui-input-inline select-ul">
+					<ul class="ul-title">
+						<li>
+							<input type="checkbox" name="test" id="short">
+							<label for="short">作业管理</label>
+							<ul class="ul-content">
+								<li>
+									<input type="checkbox" name="shor" id="short-1" value="add6">
+									<label for="short-1">增加</label>
+								</li>
+								<li>
+									<input type="checkbox" name="shor" id="short-2" value="del6">
+									<label for="short-2">删除</label>
+								</li>
+								<li>
+									<input type="checkbox" name="shor" id="short-3" value="modify6">
+									<label for="short-3">修改</label>
+								</li>
+								<li>
+									<input type="checkbox" name="shor" id="short-4" value="detail6">
+									<label for="short-4">查询</label>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>	
+					
+				<div class="layui-input-inline select-ul">
+					<ul class="ul-title">
+						<li>
+							<input type="checkbox" name="short" id="short"  class="special-input">
+							<label for="short">作业审核</label>
+							<ul class="ul-content">
+								<li>
+									<input type="checkbox" name="sh" id="short-1" value="add7">
+									<label for="short-1">增加</label>
+								</li>
+								<li>
+									<input type="checkbox" name="sh" id="short-2" value="del7">
+									<label for="short-2">删除</label>
+								</li>
+								<li>
+									<input type="checkbox" name="sh" id="short-3" value="modify7">
+									<label for="short-3">修改</label>
+								</li>
+								<li>
+									<input type="checkbox" name="sh" id="short-4" value="detail7">
+									<label for="short-4">查询</label>
+								</li>
+							</ul>
+						</li>
+					</ul>
+
+				</div>
+				
+				<div class="layui-input-inline select-ul">
+					<ul class="ul-title">
+						<li>
+							<input type="checkbox" name="short" id="short"  class="special-input">
+							<label for="short">站点管理</label>
+							<ul class="ul-content">
+								<li>
+									<input type="checkbox" name="zd" id="short-1" value="add8">
+									<label for="short-1">增加</label>
+								</li>
+								<li>
+									<input type="checkbox" name="zd" id="short-2" value="del8">
+									<label for="short-2">删除</label>
+								</li>
+								<li>
+									<input type="checkbox" name="zd" id="short-3" value="modify8">
+									<label for="short-3">修改</label>
+								</li>
+								<li>
+									<input type="checkbox" name="zd" id="short-4" value="detail8">
+									<label for="short-4">查询</label>
+								</li>
+							</ul>
+						</li>
+					</ul>
+
+				</div>
+
+				<div class="layui-input-inline select-ul">
+					<ul class="ul-title">
+						<li>
+							<input type="checkbox" name="short" id="short" > 
+							<label for="short">权限管理</label>
+							<ul class="ul-content">
+								<li>
+									<input type="checkbox" name="qx" id="short-1" value="add9">
+									<label for="short-1">增加</label>
+								</li>
+								<li>
+									<input type="checkbox" name="qx" id="short-2" value="del9">
+									<label for="short-2">删除</label>
+								</li>
+								<li>
+									<input type="checkbox" name="qx" id="short-3" value="modify9">
+									<label for="short-3">修改</label>
+								</li>
+								<li>
+									<input type="checkbox" name="qx" id="short-4" value="detail9">
+									<label for="short-4">查询</label>
+								</li>
+							</ul>
+						</li>
+					</ul>
+
+				</div>
+				
+				<div class="layui-input-inline select-ul">
+					<ul class="ul-title">
+						<li>
+							<input type="checkbox" name="short" id="short"  class="special-input">
+							<label for="short">人员管理</label>
+							<ul class="ul-content">
+								<li>
+									<input type="checkbox" name="ry" id="short-1" value="add10">
+									<label for="short-1">增加</label>
+								</li>
+								<li>
+									<input type="checkbox" name="ry" id="short-2" value="del10">
+									<label for="short-2">删除</label>
+								</li>
+								<li>
+									<input type="checkbox" name="ry" id="short-3" value="modify10">
+									<label for="short-3">修改</label>
+								</li>
+								<li>
+									<input type="checkbox" name="ry" id="short-4" value="detail10">
+									<label for="short-4">查询</label>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+			
+			<div class="layui-form-item ul-main">
+				<label class="layui-form-label"></label>
+				<div class="layui-input-inline select-ul">
+					<ul class="ul-title">
+						<li>
+							<input type="checkbox" name="short" id="short"  class="special-input">
+							<label for="short">日志管理</label>
+							<ul class="ul-content">
+								<li>
+									<input type="checkbox" name="rz" id="short-1" value="add11">
+									<label for="short-1">增加</label>
+								</li>
+								<li>
+									<input type="checkbox" name="rz" id="short-2" value="del11">
+									<label for="short-2">删除</label>
+								</li>
+								<li>
+									<input type="checkbox" name="rz" id="short-3" value="modify11">
+									<label for="short-3">修改</label>
+								</li>
+								<li>
+									<input type="checkbox" name="rz" id="short-4" value="detail11">
+									<label for="short-4">查询</label>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+			
+			<div class="layui-form-item" style="margin-top: 50px; margin-bottom: 40px;overflow: hidden;">
+			<div class="col-lg-offset-2 col-lg-10">
+				<button type="button" onclick="addperson()" class="layui-btn common-btn" style="position: absolute;right: 56%;">保存</button>
+				<button onclick="reflush()" type="button" class="layui-btn common-btn" style="position: absolute;right: 50%;">重置</button>
+				<a href="permissionManage.html" class="layui-btn common-btn" style="position: absolute;right: 44%;">返回</a>
+			</div>
+			</div>
+		</form>
+		<script>
+			$('input[type="checkbox"]').change(function(e) {
+
+				var checked = $(this).prop("checked"),
+					container = $(this).parent(),
+					siblings = container.siblings();
+
+				container.find('input[type="checkbox"]').prop({
+					indeterminate: false,
+					checked: checked
+				});
+
+				function checkSiblings(el) {
+
+					var parent = el.parent().parent(),
+						all = true;
+
+					el.siblings().each(function() {
+						return all = ($(this).children('input[type="checkbox"]').prop("checked") === checked);
+					});
+
+					if(all && checked) {
+
+						parent.children('input[type="checkbox"]').prop({
+							indeterminate: false,
+							checked: checked
+						});
+
+						checkSiblings(parent);
+
+					} else if(all && !checked) {
+
+						parent.children('input[type="checkbox"]').prop("checked", checked);
+						parent.children('input[type="checkbox"]').prop("indeterminate", (parent.find('input[type="checkbox"]:checked').length > 0));
+						checkSiblings(parent);
+
+					} else {
+
+						el.parents("li").children('input[type="checkbox"]').prop({
+							indeterminate: true,
+							checked: false
+						});
+
+					}
+
+				}
+
+				checkSiblings(container);
+			});
+		</script>
+
+		<script type="text/javascript" src="../plugins/layui/layui.all.js"></script>
+		<script type="text/javascript">
+			function addperson() {
+			var rolename = $("#i1").val();
+            /*obj = document.getElementsByName("sj");
+			check_val = [];
+				for(k in obj){
+				    if(obj[k].checked)
+				        check_val.push(obj[k].value);
+				}
+			
+			obj1 = document.getElementsByName("sk");
+			check1_val = [];
+				for(k in obj1){
+				    if(obj1[k].checked)
+				        check1_val.push(obj1[k].value);
+				}
+			
+			obj2 = document.getElementsByName("zy");
+			check2_val = [];
+				for(k in obj2){
+				    if(obj2[k].checked)
+				        check2_val.push(obj2[k].value);
+				}
+			
+			obj3 = document.getElementsByName("shor");
+			check3_val = [];
+				for(k in obj3){
+				    if(obj3[k].checked)
+				        check3_val.push(obj3[k].value);
+				}
+			
+			obj4 = document.getElementsByName("qx");
+			check4_val = [];
+				for(k in obj4){
+				    if(obj4[k].checked)
+				        check4_val.push(obj4[k].value);
+				}
+			
+			var map={
+				数据管理:check_val,
+				时刻表管理:check1_val,
+				作业计划表:check2_val,
+				作业管理:check3_val,
+				权限管理:check4_val
+			};
+			console.log(map);
+			*/
+			/*obj = document.getElementsByName("sj");
+			arr=[];
+			for(k in obj){
+				 arr.push(obj[k].checked);
+				}
+			console.log("数据:"+arr);
+			obj1 = document.getElementsByName("sk");
+			arr1=[];
+			for(k in obj1){
+				 arr1.push(obj1[k].checked);
+				}
+			console.log("时刻:"+arr1);
+			obj2 = document.getElementsByName("zy");
+			arr2=[];
+			for(k in obj2){
+				 arr2.push(obj2[k].checked);
+				}
+			console.log("作业计划:"+arr2);
+			obj3 = document.getElementsByName("shor");
+			arr3=[];
+			for(k in obj3){
+				 arr3.push(obj3[k].checked);
+				}
+			console.log("作业管理:"+arr3);
+			obj4 = document.getElementsByName("qx");
+			arr4=[];
+			for(k in obj4){
+				 arr4.push(obj4[k].checked);
+				}
+			console.log(arr4);*/
+			var a1=document.getElementsByName("sj")[0].checked;
+			var a2=document.getElementsByName("sj")[1].checked;
+			var a3=document.getElementsByName("sj")[2].checked;
+			var a4=document.getElementsByName("sj")[3].checked;
+			var a5=document.getElementsByName("sk")[0].checked;
+			var a6=document.getElementsByName("sk")[1].checked;
+			var a7=document.getElementsByName("sk")[2].checked;
+			var a8=document.getElementsByName("sk")[3].checked;
+			var a9=document.getElementsByName("zy")[0].checked;
+			var a10=document.getElementsByName("zy")[1].checked;
+			var a11=document.getElementsByName("zy")[2].checked;
+			var a12=document.getElementsByName("zy")[3].checked;
+			var a13=document.getElementsByName("mr")[0].checked;
+			var a14=document.getElementsByName("mr")[1].checked;
+			var a15=document.getElementsByName("mr")[2].checked;
+			var a16=document.getElementsByName("mr")[3].checked;
+			var a17=document.getElementsByName("cy")[0].checked;
+			var a18=document.getElementsByName("cy")[1].checked;
+			var a19=document.getElementsByName("cy")[2].checked;
+			var a20=document.getElementsByName("cy")[3].checked;
+			
+			var a21=document.getElementsByName("shor")[0].checked;
+			var a22=document.getElementsByName("shor")[1].checked;
+			var a23=document.getElementsByName("shor")[2].checked;
+			var a24=document.getElementsByName("shor")[3].checked;
+			
+			var a25=document.getElementsByName("sh")[0].checked;
+			var a26=document.getElementsByName("sh")[1].checked;
+			var a27=document.getElementsByName("sh")[2].checked;
+			var a28=document.getElementsByName("sh")[3].checked;
+			
+			var a29=document.getElementsByName("zd")[0].checked;
+			var a30=document.getElementsByName("zd")[1].checked;
+			var a31=document.getElementsByName("zd")[2].checked;
+			var a32=document.getElementsByName("zd")[3].checked;
+			
+			var a33=document.getElementsByName("qx")[0].checked;
+			var a34=document.getElementsByName("qx")[1].checked;
+			var a35=document.getElementsByName("qx")[2].checked;
+			var a36=document.getElementsByName("qx")[3].checked;
+			
+			var a37=document.getElementsByName("ry")[0].checked;
+			var a38=document.getElementsByName("ry")[1].checked;
+			var a39=document.getElementsByName("ry")[2].checked;
+			var a40=document.getElementsByName("ry")[3].checked;
+			
+			var a41=document.getElementsByName("rz")[0].checked;
+			var a42=document.getElementsByName("rz")[1].checked;
+			var a43=document.getElementsByName("rz")[2].checked;
+			var a44=document.getElementsByName("rz")[3].checked;
+            
+            var b1="true";
+            if(a1==false&&a2==false&&a3==false&&a4==false){
+            	b1="false"
+            };
+            
+            var b2="true";
+            if(a5==false&&a6==false&&a7==false&&a8==false){
+            	b2="false"
+            };
+            
+            var b3="true";
+            if(a9==false&&a10==false&&a11==false&&a12==false){
+            	b3="false"
+            };
+            
+            var b4="true";
+            if(a13==false&&a14==false&&a15==false&&a16==false){
+            	b4="false"
+            };
+            
+            var b5="true";
+            if(a17==false&&a18==false&&a19==false&&a20==false){
+            	b5="false"
+            };
+            
+            var b6="true";
+            if(a21==false&&a22==false&&a23==false&&a24==false){
+            	b6="false"
+            };
+            
+            var b7="true";
+            if(a25==false&&a26==false&&a27==false&&a28==false){
+            	b7="false"
+            };
+            
+            var b8="true";
+            if(a29==false&&a30==false&&a31==false&&a32==false){
+            	b8="false"
+            };
+            
+            var b9="true";
+            if(a33==false&&a34==false&&a35==false&&a36==false){
+            	b9="false"
+            };
+            
+            var b10="true";
+            if(a37==false&&a38==false&&a39==false&&a40==false){
+            	b10="false"
+            };
+            
+            var b11="true";
+            if(a41==false&&a42==false&&a43==false&&a44==false){
+            	b11="false"
+            };
+            
+            var jk="7d9577b6-f501-4d98-b3ec-6fb25c062604,"+b1+","+a1+","+a2+","+a3+","+a4+",true,true;c3bd5f71-58e0-4fbb-a336-b4fbaaa764db,"+b2+","+a5+","+a6+","+a7+","+a8+",true,true;40cbb245-969b-4987-a46f-6e8205969578,"+b3+","+a9+","+a10+","+a11+","+a12+",true,true;677b2a9d-21b8-4fa3-8437-8112100b5ac3,"+b4+","+a13+","+a14+","+a15+","+a16+",true,true;5ce9cd72-6846-4949-95cc-41be81eaf0d2,"+b5+","+a17+","+a18+","+a19+","+a20+",true,true;e4a77e4a-b087-417f-96c6-9e44ca16005b,"+b6+","+a21+","+a22+","+a23+","+a24+",true,true;7bf23905-e502-43da-b827-a312afb8ae4d,"+b7+","+a25+","+a26+","+a27+","+a28+",true,true;bc49657e-99a5-4cf9-9436-270138287af5,"+b8+","+a29+","+a30+","+a31+","+a32+",true,true;bbcc8a5f-984f-4f79-baa0-089013833466,"+b9+","+a33+","+a34+","+a35+","+a36+",true,true;32278a8a-1d5b-4ef4-9ed9-405ea806cae8,"+b10+","+a37+","+a38+","+a39+","+a40+",true,true;dc65e1de-71e3-45c4-998e-43829e422569,"+b11+","+a41+","+a42+","+a43+","+a44+","+"true,true";
+            console.log(jk)
+			if(rolename == ""){
+				layer.msg('角色名不可为空',{
+				time:2000,
+				icon:5
+				});
+			}else{
+			 	$.ajax({ 
+					    type:'post',  
+					    url:"http://10.133.10.204/Data/AddRoleMenu?roleName="+rolename, 
+					    async: false,
+					    data:{"jsonList":jk},
+					    success:function(data){
+					    	layer.msg("添加成功", {
+								time: 500,
+								icon: 6
+							});
+							setTimeout(function () {
+						        window.location.reload()
+						    }, 500);
+					    },
+					    error:function(){ 
+					     layer.msg('请求失败',{
+							time:2000,
+							icon:5
+							});
+					    }
+					})
+			 }
+		}
+		
+		function reflush(){
+			window.location.reload();
+		}
+		</script>
+
+	</body>
+
+</html>

@@ -1,0 +1,110 @@
+<!D0OCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="../plugins/layui/css/layui.css" />
+		<link rel="stylesheet" href="../build/css/common.css" />
+	</head>
+	<style>
+		.main {
+			margin: 40px 0 0 95px;
+		}
+		
+		.updata {
+			display: inline-block;
+			height: 50px;
+			width: 100px;
+			color: #fff;
+			text-align: center;
+			line-height: 50px;
+			position: absolute;
+			z-index: 1;
+		}
+		
+		.filedata {
+			height: 50px;
+			width: 100px;
+			position: absolute;
+			z-index: 10;
+			opacity: 0;
+		}
+		
+		.fileinput-button {
+			position: relative;
+			line-height: 50px;
+		}
+		
+		#myForm {
+			margin: 20px 0 0 90px;
+		}
+	</style>
+
+	<body>
+		<form name="fileForm" class="layui-form" id="myForm" action="" method="post" enctype="multipart/form-data" multiple="multiple">
+			<div class="layui-form-item fileinput-button">
+				<label for="">选择文件:&nbsp;&nbsp;&nbsp;</label>
+				<div class="updata layui=btn common-btn">
+					<i class="layui-icon layui-icon-senior" style=""></i> 选择地址
+				</div>
+				<input name="filedata" type="file" value="选择地址" class="filedata common-btn" />
+			</div>
+		</form>
+		<div class="layui-form-item" style="margin-bottom: 40px;overflow: hidden;">
+				<div class="col-lg-offset-2 col-lg-10">
+					<button lay-submit lay-filter="formDemo" onclick="subimtBtn();" class="layui-btn common-btn" style="position: absolute;right: 15%;top: 27px;">保存</button>
+				</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../plugins/layui/layui.js"></script>
+	<script type="text/javascript" src="../build/js/jquery-2.1.0.js"></script>
+	<script type="text/javascript" src="../build/js/form.js"></script>
+	<script type="text/javascript" src="../build/js/jquery.cookie.js"></script>
+	<script>
+		var GuiId = parent.GuiId;
+		var str = parent.str
+		var typeid = parent.typeid
+		var username = $.cookie("username")
+		var action = "http://10.133.10.204/HOME/ExcelToDataTable?sheetName=Sheet0&transferGuid=" + GuiId;
+		function subimtBtn() {
+			layui.use( 'layer', function() {
+					var layer = layui.layer;
+					var index = layer.load(1, {
+  					shade: [0.1,'#fff'] ,
+					offset: ['78px', '190px']//0.1透明度的白色背景
+					});
+			})
+			var form = $("form[name=fileForm]");
+			var options = {
+				url: action, //上传文件的路径  
+				type: 'post',
+				success: function(data) {
+					layui.use( 'layer', function() {
+						var layer = layui.layer;
+					if(data.msg=="导入成功"){
+							layer.msg(data.msg,{
+								time:500
+							})
+							setTimeout(function(){
+								parent.layer.closeAll();
+								parent.location.reload(true) 
+							},500)	
+						}
+						else{
+							layer.msg(data.msg,{
+								time:500
+							})
+							setTimeout(function(){
+							parent.layer.closeAll();
+							parent.location.reload(true) 
+							},500)
+						}
+					})
+				}
+			};
+			form.ajaxSubmit(options);
+		}
+	</script>
+
+</html>

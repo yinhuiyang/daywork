@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>作业计划表</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>Document</title>
+		<link rel="stylesheet" href="css/common.css" />
+		<link rel="stylesheet" href="css/zl.css" />
+		<link rel="stylesheet" href="js/layui/css/layui.css" media="all">
+		<link rel="stylesheet" href="css/iconfont/iconfont.css" media="all">
+	</head>
+	<style>
+		html {
+			background: #f3f3f3;
+			padding: 20px;
+		}
+		
+		body {
+			padding: 20px;
+			background: #FFFFFF;
+			border-radius: 10px;
+			overflow-y: scroll;
+		}
+		.sortable-ghost {
+            opacity: 0.4;
+            background-color: #46d0fe !important;
+        }
+
+	</style>
+
+	<body>
+		<div class="layui-form" action="" style="position: relative; margin-bottom: 20px">
+			<input type="text" name="keyword" id="zuoyeReload" autocomplete="off" class="layui-input-block common-input zl-lf zl-malf" placeholder="请输入调图版本号" />
+			<button class="layui-btn common-btn" id="zuoyeFindKey" data-type="reload"><i class="layui-icon layui-icon-search"></i>查询</button>
+			<!--<button class="layui-btn common-btn data-creat" style="position: absolute;right: 20px;"><i class="layui-icon layui-icon-add-1"></i>创建</button>-->
+		</div>
+		<table id="zuoyeTable" class="layui-table"  style="margin-bottom: 20px" lay-filter="zuoyedemo">
+
+		</table>
+		
+	</body>
+
+	<script type="text/javascript" src="js/jquery-2.1.0.js"></script>
+	<script type="text/javascript" src="../build/js/Sortable.js" ></script>
+	<script type="text/javascript" src="js/layui/layui.all.js"></script>
+	<script type="text/html" id="barDemo">
+		<a class="layui-btn layui-btn-xs common-btn"   lay-event="detail">查看</a>
+		<a class="layui-btn layui-btn-xs common-btn"  lay-event="generate">生成</a>
+		<a class="layui-btn layui-btn-xs common-btn"  lay-event="export">导出本地</a>
+	</script>
+	<script type="text/html" id="tanBianJi">
+		<a class="layui-btn layui-btn-xs zl-btn"   lay-event="detail">查看</a>
+		<a class="layui-btn layui-btn-xs zl-btn"  lay-event="generate">生成</a>
+		<a class="layui-btn layui-btn-xs zl-btn"  lay-event="export">导出本地</a>
+	</script>
+	<script type="text/javascript" src="js/page/zuoYeJiHuaBiao.js">
+	
+	</script>
+    
+	<!--<script type="text/javascript" src="js/layui/lay/modules/mytable.js"></script>-->
+
+
+</html>

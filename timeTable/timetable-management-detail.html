@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>时刻表管理</title>
+		<link rel="stylesheet" href="../build/css/common.css" />
+		<link rel="stylesheet" href="../plugins/layui/css/layui.css" media="all">
+	</head>
+	<style>
+		html {
+			background: #f3f3f3;
+			padding: 20px;
+		}
+		
+		body {
+			padding: 20px;
+			background: #FFFFFF;
+			border-radius: 10px;
+			overflow-y: scroll;
+			box-shadow: 0 2px 6px rgba(100, 100, 100, 0.3);
+		}
+		
+		table {
+			margin: 0 !important;
+		}
+		
+		.time-table tr {
+			background: #FFFFFF !important;
+		}
+		
+		.time-table tr td:nth-child(2n+1) {
+			background: #eeeff1 !important;
+			color: #114c98 !important;
+			font-weight: bold;
+		}
+		
+		.time-table tr td {
+			width: 16% !important;
+			padding: 0 !important;
+			line-height: 48px !important;
+			text-align: center !important;
+			border: 1px solid #d1d1d1 !important;
+		}
+		
+		select,
+		input {
+			width: 80%;
+			height: 80%;
+			border: none;
+		}
+		
+		.layui-table-view {
+			margin: 0 0 10px 0 !important;
+		}
+		
+		.layui-table-cell {
+			height: 38px !important;
+			line-height: 38px !important;
+			padding: 0 !important;
+		}
+		
+		.fixed td {
+			color: red !important;
+		}
+		
+		#tbMain input {
+			text-align: center;
+			background: none !important;
+		}
+	</style>
+
+	<body>
+		<div>
+			<table class="layui-table time-table">
+				<tr>
+					<td>序号</td>
+					<td>
+						<input type="text" name="Id" />
+					</td>
+					<td>车次</td>
+					<td>
+						<input type="text" name="trainNum" />
+					</td>
+					<td>列车等级</td>
+					<td>
+						<select name="TrainRating" id="TrainRating" value="">
+							<option value="直通高速动车">直通高速动车</option>
+							<option value="直通动车">直通动车</option>
+							<option value="直通直达">直通直达</option>
+							<option value="直通快递">直通快递</option>
+							<option value="直通普快">直通普快</option>
+							<option value="管内高速动车">管内高速动车</option>
+							<option value="管内城际">管内城际</option>
+							<option value="管内市郊">管内市郊</option>
+							<option value="管内快递">管内快递</option>
+							<option value="管内特快">管内特快</option>
+							<option value="管内动车">管内动车</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>始发站</td>
+					<td>
+						<input type="text" name="startAddress" />
+					</td>
+					<td>终点站</td>
+					<td>
+						<input type="text" name="arriveAddress" />
+					</td>
+					<td>乘务担当</td>
+					<td>
+						<input type="text" name="underTake" />
+					</td>
+				</tr>
+				<tr>
+					<td>列车方向</td>
+					<td>
+						<select name="TrainDirection" id="TrainDirection">
+							<option value="正编">正编</option>
+							<option value="反编">反编</option>
+						</select>
+					</td>
+					<td>列车编组</td>
+					<td>
+						<input type="text" name="marshing" />
+					</td>
+					<td>列车对数</td>
+					<td>
+						<input type="text" name="trainLogarithm" />
+					</td>
+				</tr>
+				<tr>
+					<td>加水</td>
+					<td>
+						<input type="text" name="watering" />
+					</td>
+					<td>吸污</td>
+					<td>
+						<input type="text" name="Fouling" />
+					</td>
+					<td>行邮包</td>
+					<td>
+						<input type="text" name="parceline" />
+					</td>
+				</tr>
+				<tr>
+					<td>备注</td>
+					<td colspan="3">
+						<input  type="text" name="remark" />
+					</td>
+					<td>定员</td>
+					<td >
+						<input type="text" name="capacity" />
+					</td>
+				</tr>
+			</table>
+			<style>
+				th {
+					text-align: center !important;
+					background: #eeeff1 !important;
+					color: #114c98 !important;
+					font-weight: bold !important;
+					border: 1px solid #D1D1D1 !important;
+					width: 16% !important;
+				}
+				
+				.layui-btn-group {
+					margin-top: 40px !important;
+				}
+			</style>
+			<table class=" layui-table station" id="">
+				<thead>
+					<tr style="text-align: center;">
+						<th>站点</th>
+						<th>股道</th>
+						<th>到点</th>
+						<th>开点</th>
+						<th>站台</th>
+					</tr>
+				</thead>
+				<tbody id="tbMain">
+					<tr class="fixed">
+						<td>
+
+						</td>
+						<td>
+
+						</td>
+						<td>
+
+						</td>
+						<td>
+
+						</td>
+						<td>
+
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="layui-btn-group" style="margin-left: 40%;">
+				<button class="layui-btn common-btn save-btn ">保存</button>
+				<a href="javascript:;" onClick="javascript:history.back(-1);" class="layui-btn common-btn back" style="margin-left:20px !important;">返回</a>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../build/js/jquery-2.1.0.js"></script>
+	<script type="text/javascript" src="../build/js/Sortable.js"></script>
+	<script type="text/javascript" src="../plugins/layui/layui.all.js"></script>
+	<script type="text/javascript" src="../build/js/jquery.cookie.js"></script>
+	<script>
+		var url_data = window.location.search;
+		var url_arr = url_data.split("=");
+		var GuiId = url_arr[1];
+		var str = sessionStorage.getItem("transferGuidId")
+		var save_arr = [];
+		var save_str = "";
+		var username = $.cookie("username")
+		layui.use('table', function() {
+			var table = layui.table;
+			//第一个实例
+			table.render({
+				elem: '#demo',
+				method: "post",
+				url: "http://10.133.10.204/HOME/GetTimeTableByGuidId?guidId=" + GuiId + "&loginName" + username,
+				cols: [
+					[]
+				]
+
+			}); //	表格行拖动		
+
+			//			Sortable.create(document.getElementById('tbMain'), {
+			//				animation: 150
+			//			});
+		});
+		var arr_add = [];
+		var arr_name = [];
+		var arr_name2 = [];
+		var arr_arrivalTime = [];
+		var arr_arrivalTime2 = [];
+		var arr_departureTime = [];
+		var arr_departureTime2 = [];
+		var name_stage = "";
+		$.ajax({
+			type: "post",
+			url: "http://10.133.10.204/HOME/GetTimeTableByGuidId?guidId=" + GuiId,
+			async: true,
+			success: function(data) {
+				var platform = data.data.Platform;
+				var stockMarket = data.data.StockMarket;
+				var task = data.data.TaskName;
+				var taskarr = task.split(";")
+				$("input[name='Id']").val(data.data.id);
+				$("input[name='capacity']").val(data.data.Capacity);
+				$("input[name='trainNum']").val(data.data.TrainNum);
+				$("input[name='arriveAddress']").val(data.data.EndStation);
+				$("input[name='startAddress']").val(data.data.StartStation);
+				$("input[name='marshing']").val(data.data.Marshalling);
+				$("#TrainRating").val(data.data.TrainType);
+				$("input[name='underTake']").val(data.data.TakeOn);
+				$("input[name='remark']").val(data.data.Remark);
+				$("#TrainDirection option[value='" + data.data.TrainDirection + "']").attr("selected", true);
+				$("input[name='trainLogarithm']").val(data.data.TrainLogarithm);
+				$("input[name='watering']").val(taskarr[0]);
+				$("input[name='Fouling']").val(taskarr[1]);
+				$("input[name='parceline']").val(taskarr[2]);
+				var arr = data.data.AboutStation.split("|");
+				for(var i = 0; i < arr.length; i++) {
+					arr_add.push(arr[i].split(","))
+				}
+				for(var j = 0; j < arr_add.length; j++) {
+					arr_name.push(arr_add[j][0].split(":"))
+				}
+				for(var j = 0; j < arr_name.length; j++) {
+					arr_name2.push(arr_name[j][1])
+				}
+				for(var j = 0; j < arr_add.length; j++) {
+					arr_arrivalTime.push(arr_add[j][1].split("e:"))
+				}
+				for(var j = 0; j < arr_arrivalTime.length; j++) {
+					arr_arrivalTime2.push(arr_arrivalTime[j][1])
+				}
+				for(var j = 0; j < arr_add.length; j++) {
+					arr_departureTime.push(arr_add[j][2].split("e:"))
+				}
+				for(var j = 0; j < arr_departureTime.length; j++) {
+					arr_departureTime2.push(arr_departureTime[j][1])
+				}
+
+				for(var j = 0; j < arr_departureTime2.length; j++) {
+					$("#tbMain").append("<tr><td><input name='name' value =" + arr_name2[j] + ">  </td><td><input value=''></td><td><input name='arrivalTime' value=" + arr_arrivalTime2[j] + "> </td><td><input name='departureTime' value=" + arr_departureTime2[j] + "></td><td><input></td></tr>")
+				}
+
+				$(document).ready(function() {
+					$.ajax({
+						type: "post",
+						url: "http://10.133.10.204/HOME/GetStationDeptName",
+						async: true,
+						success: function(data) {
+							for(var k = 0; k < arr_name2.length; k++) {
+								for(var i = 0; i < data.data.length; i++) {
+									if(arr_name2[k] == data.data[i].detpName) {
+										var index = k
+										$("#tbMain input").eq(j * 5 + 1).attr("name", "StockMarket")
+										$("#tbMain input").eq(j * 5 + 4).attr("name", "Platform")
+										$("#tbMain input").eq(k * 5 + 1).val(data.data.StockMarket)
+										$("#tbMain input").eq(k * 5 + 4).val(data.data.Platform)
+										
+										$("#tbMain input").eq(j * 5 + 2).attr("name", "ArrivePoint")
+										$("#tbMain input").eq(j * 5 + 3).attr("name", "OpenPoint")
+										
+										$(".fixed td ").eq(0).text(arr_name2[index])
+										$(".fixed td ").eq(4).text(platform);
+										$(".fixed td ").eq(1).text(stockMarket)
+										$(".fixed td ").eq(2).text(arr_arrivalTime2[index])
+										$(".fixed td ").eq(3).text(arr_departureTime2[index])
+									}
+								}
+							}
+						}
+					});
+				})
+				setTimeout(function() {
+					for(var j = 0; j < arr_name2.length; j++) {
+						if(arr_name2[j] == "南京南" || arr_name2[j] == "南京") {
+							var index = j
+							$("#tbMain input").eq(j * 5 + 1).attr("name", "StockMarket")
+							$("#tbMain input").eq(j * 5 + 4).attr("name", "Platform")
+							$("#tbMain input").eq(j * 5 + 1).val(data.data.StockMarket)
+							$("#tbMain input").eq(j * 5 + 4).val(data.data.Platform)
+							$("#tbMain input").eq(j * 5 + 2).attr("name", "ArrivePoint")
+							$("#tbMain input").eq(j * 5 + 3).attr("name", "OpenPoint")
+							$(".fixed td ").eq(0).text(arr_name2[index])
+							$(".fixed td ").eq(4).text(platform);
+							$(".fixed td ").eq(1).text(stockMarket)
+							$(".fixed td ").eq(2).text(arr_arrivalTime2[index])
+							$(".fixed td ").eq(3).text(arr_departureTime2[index])
+						}
+					}
+
+				}, 100)
+				setTimeout(function() {
+					$("input[name='StockMarket']").blur(function() {
+
+						$(".fixed td ").eq(1).text($(this).val())
+					})
+					$("input[name='Platform']").blur(function() {
+						$(".fixed td ").eq(4).text($(this).val())
+					})
+				}, 110)
+
+				$("#tbMain input").blur(function() {
+					save_arr = [];
+					var index = $(this).index("#tbMain input");
+					var val = $(this).val()
+					if(index % 5 == 0) {
+						var i = parseInt(index / 5)
+						arr_name2.splice(i, 1, val)
+					} else if(index % 5 == 2) {
+						var i = parseInt(index / 5)
+						arr_arrivalTime2.splice(i, 1, val)
+					} else if(index % 5 == 3) {
+						var i = parseInt(index / 5)
+						arr_departureTime2.splice(i, 1, val)
+					}
+					for(var m = 0; m < arr_name2.length; m++) {
+
+						var ex = "name:" + arr_name2[m] + ",arrivalTime:" + arr_arrivalTime2[m] + ",departureTime:" + arr_departureTime2[m]
+						save_arr.push(ex)
+					}
+					save_str = save_arr.join("|")
+					name_stage = arr_name2.join("、")
+
+				})
+
+				$(".save-btn").click(function() {
+
+					var TaskName = $("input[name='watering']").val() + ";" + $("input[name='Fouling']").val() + ";" + $("input[name='parceline']").val()
+					$.ajax({
+						type: "post",
+						url: "http://10.133.10.204/HOME/UpdateTimeTable?guidId=" + GuiId,
+						async: true,
+						data: {
+							capacity:$("input[name='capacity']").val(),
+							arrivePoint:$("input[name='ArrivePoint']").val(),
+							openPoint:$("input[name='OpenPoint']").val(),
+							stockMarket: $("input[name='StockMarket']").val(),
+							platform: $("input[name='Platform']").val(),
+							stopStation: name_stage,
+							aboutStation: save_str,
+							GuiId: GuiId,
+							id: $("input[name='Id']").val(),
+							trainNum: $("input[name='trainNum']").val(),
+							arriveAddress: $("input[name='arriveAddress']").val(),
+							startAddress: $("input[name='startAddress']").val(),
+							marshing: $("input[name='marshing']").val(),
+							trainType: $("#TrainRating").val(),
+							underTake: $("input[name='underTake']").val(),
+							remark: $("input[name='remark']").val(),
+							trainDirection: $("#TrainDirection").val(),
+							trainLogarithm: $("input[name='trainLogarithm']").val(),
+							taskName: TaskName
+						},
+						success: function() {
+							layui.use("layer", function() {
+								var layer = layui.layer;
+								layer.msg("保存修改成功", {
+									icon: 1,
+									time: 1500
+								})
+								window.location.href = "timetable-management.html?GuiId=" + str
+							})
+						},
+						error: function() {
+							layui.use("layer", function() {
+								var layer = layui.layer;
+								layer.msg("保存修改失败", {
+									icon: 2,
+									time: 1500
+								})
+							})
+						}
+
+					});
+				})
+			}
+		});
+	</script>
+
+</html>

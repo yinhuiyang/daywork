@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="../plugins/layui/css/layui.css">
+		<link rel="stylesheet" href="../build/css/common.css" />	
+		<script src="../build/js/jquery-2.1.0.js"></script>
+		
+		<style>
+			html {
+				background: #f3f3f3;
+				padding: 20px;
+			}
+			
+			body {
+				padding: 20px;
+				background: #FFFFFF;
+				border-radius: 10px;
+				overflow-y: scroll;
+				box-shadow: 0 2px 6px rgba(100, 100, 100, 0.3);
+			}
+			
+			.ul-title>li {
+				margin: 10px 0 0 0;
+			}
+			
+			.ul-title>li>input {
+				margin-left: 34px;
+				margin-bottom: 10px;
+			}
+			
+			li {
+				margin: 10px 0;
+				list-style: none;
+			}
+			
+			#i1 {
+				width: 200px !important;
+			}
+			
+			#i2 {
+				width: 200px !important;
+			}
+			
+			.layui-layer-dialog .layui-layer-content {
+				padding: 20px 50px !important;
+				background-color: #FFFFFF !important;
+			}
+			
+			.layui-layer-title {
+				color: #FFFFFF !important;
+				background-image: url(../images/he-bg.png);
+				background-repeat: no-repeat;
+				border-top-left-radius: 10px !important;
+				border-top-right-radius: 10px !important;
+				background-color: #FFFFFF !important;
+			}
+			
+			.layui-layer-dialog {
+				border-top-left-radius: 0px !important;
+				border-top-right-radius: 0px !important;
+			}
+			
+			.select-ul {
+				border: 1px solid #cac1c2 !important;
+				border-radius: 4px !important;
+			}
+			
+			.ul-content {
+				background-color: #f9f9f9;
+				border: 1px solid #cac1c2;
+				text-align: center;
+				height: 200px;
+			}
+			
+			.layui-input-inline {
+				float: none !important;
+			}
+			
+			.ul-main {
+				display: flex !important;
+			}
+			
+			.special-input {
+				margin-left: 14px;
+			}
+			
+			.special-input-2 {
+				margin-left: 28px;
+			}
+			
+			input[type="checkbox"] {
+				width: 20px;
+				height: 20px;
+				display: inline-block;
+				text-align: center;
+				vertical-align: middle;
+				line-height: 18px;
+				position: relative;
+			}
+			input[type="checkbox"]:indeterminate{
+				content: "\2713";
+				background-color: #229dfd;
+				border: 1px solid #74c0fc;
+				color: #FFFFFF;
+				font-size: 20px;
+				font-weight: bold;	
+			}
+			
+			input[type="checkbox"]:checked::before {
+				content: "\2713";
+				background-color: #229dfd;
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				border: 1px solid #74c0fc;
+				color: #FFFFFF;
+				font-size: 20px;
+				font-weight: bold;
+				border-radius:4px ;
+			}
+		</style>
+	</head>
+
+	<body>
+		<form id="myForm" action="" method="post">
+			<div class="layui-form-item">
+				<label class="layui-form-label">角色名称</label>
+				<div class="layui-input-block">
+					<input name="rolename" readonly="readonly" placeholder="请输入角色名称" id="i1" type="text" class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-form-item ul-main">
+				<label class="layui-form-label">操作权限</label>
+				<div class="layui-input-inline select-ul">
+					<ul class="ul-title">
+						<li>
+							<input type="checkbox" name="data" id="short"  disabled="disabled">
+							<label for="short">数据管理</label>
+							<ul class="ul-content">
+								<li>
+									<input type="checkbox" name="sj"  disabled="disabled" id="short-1" value="add1">
+									<label for="short-1">增加</label>
+								</li>
+								<li>
+									<input type="checkbox" name="sj"  disabled="disabled" id="short-2" value="del1">
+									<label for="short-2">删除</label>
+								</li>
+								<li>
+									<input type="checkbox" name="sj"  disabled="disabled" id="short-3" value="modify1">
+									<label for="short-3">修改</label>
+								</li>
+								<li>
+									<input type="checkbox" name="sj" disabled="disabled" id="short-4" value="detail1">
+									<label for="short-4">查看</label>
+								</li>
+							</ul>
+						</li>
+					</ul>
+
+				</div>
+
+				<div class="layui-input-inline select-ul">
+					<ul class="ul-title">
+						<li>
+							<input type="checkbox" name="short" id="short" disabled="disabled" class="special-input">
+							<label for="short">时刻表管理</label>
+							<ul class="ul-content">
+								<li>
+									<input type="checkbox" name="sk" disabled="disabled" id="short-1" value="add2">
+									<label for="short-1">增加</label>
+								</li>
+								<li>
+									<input type="checkbox" name="sk" disabled="disabled" id="short-2" value="del2">
+									<label for="short-2">删除</label>
+								</li>
+								<li>
+									<input type="checkbox" name="sk" disabled="disabled" id="short-3" value="modify2">
+									<label for="short-3">修改</label>
+								</li>
+								<li>
+									<input type="checkbox" name="sk" disabled="disabled" id="short-4" value="detail2">
+									<label for="short-4">查询</label>
+								</li>
+							</ul>
+						</li>
+
+					</ul>
+
+				</div>
+
+				<div class="layui-input-inline select-ul">
+					<ul class="ul-title">
+						<li>
+							<input type="checkbox" name="short" id="short" disabled="disabled"  class="special-input">
+							<label for="short">作业计划表</label>
+							<ul class="ul-content">
+								<li>
+									<input type="checkbox" name="zy" disabled="disabled" id="short-1" value="add3">
+									<label for="short-1">增加</label>
+								</li>
+								<li>
+									<input type="checkbox" name="zy" disabled="disabled" id="short-2" value="del3">
+									<label for="short-2">删除</label>
+								</li>
+								<li>
+									<input type="checkbox" name="zy" disabled="disabled" id="short-3" value="modify3">
+									<label for="short-3">修改</label>
+								</li>
+								<li>
+									<input type="checkbox" name="zy" disabled="disabled" id="short-4" value="detail3">
+									<label for="short-4">查询</label>
+								</li>
+							</ul>
+						</li>
+					</ul>
+
+				</div>
+				
+				<div class="layui-input-inline select-ul">
+					<ul class="ul-title">
+						<li>
+							<input type="checkbox" name="short" id="short" disabled="disabled"  class="special-input">
+							<label for="short">每日一表</label>
+							<ul class="ul-content">
+								<li>
+									<input type="checkbox" name="mr" disabled="disabled" id="short-1" value="add4">
+									<label for="short-1">增加</label>
+								</li>
+								<li>
+									<input type="checkbox" name="mr" disabled="disabled" id="short-2" value="del4">
+									<label for="short-2">删除</label>
+								</li>
+								<li>
+									<input type="checkbox" name="mr" disabled="disabled" id="short-3" value="modify4">
+									<label for="short-3">修改</label>
+								</li>
+								<li>
+									<input type="checkbox" name="mr" disabled="disabled" id="short-4" value="detail4">
+									<label for="short-4">查询</label>
+								</li>
+							</ul>
+						</li>
+					</ul>
+
+				</div>
+				
+				<div class="layui-input-inline select-ul">
+					<ul class="ul-title">
+						<li>
+							<input type="checkbox" name="short" id="short" disabled="disabled"  class="special-input">
+							<label for="short">差异对比</label>
+							<ul class="ul-content">
+								<li>
+									<input type="checkbox" name="cy" disabled="disabled" id="short-1" value="add5">
+									<label for="short-1">增加</label>
+								</li>
+								<li>
+									<input type="checkbox" name="cy" disabled="disabled" id="short-2" value="del5">
+									<label for="short-2">删除</label>
+								</li>
+								<li>
+									<input type="checkbox" name="cy" disabled="disabled" id="short-3" value="modify5">
+									<label for="short-3">修改</label>
+								</li>
+								<li>
+									<input type="checkbox" name="cy" disabled="disabled" id="short-4" value="detail5">
+									<label for="short-4">查询</label>
+								</li>
+							</ul>
+						</li>
+					</ul>
+					
+				</div>
+			</div>
+				
+				<div class="layui-form-item ul-main">
+					<label class="layui-form-label"></label>
+					
+				<div class="layui-input-inline select-ul">
+					<ul class="ul-title">
+						<li>
+							<input type="checkbox" name="test" disabled="disabled" id="short">
+							<label for="short">作业管理</label>
+							<ul class="ul-content">
+								<li>
+									<input type="checkbox" name="shor" disabled="disabled" id="short-1" value="add6">
+									<label for="short-1">增加</label>
+								</li>
+								<li>
+									<input type="checkbox" name="shor" disabled="disabled" id="short-2" value="del6">
+									<label for="short-2">删除</label>
+								</li>
+								<li>
+									<input type="checkbox" name="shor" disabled="disabled" id="short-3" value="modify6">
+									<label for="short-3">修改</label>
+								</li>
+								<li>
+									<input type="checkbox" name="shor" disabled="disabled" id="short-4" value="detail6">
+									<label for="short-4">查询</label>
+								</li>
+							</ul>
+						</li>
+					</ul>
+					</div>	
+					
+				<div class="layui-input-inline select-ul">
+					<ul class="ul-title">
+						<li>
+							<input type="checkbox" name="short" id="short" disabled="disabled"  class="special-input">
+							<label for="short">作业审核</label>
+							<ul class="ul-content">
+								<li>
+									<input type="checkbox" name="sh" disabled="disabled" id="short-1" value="add7">
+									<label for="short-1">增加</label>
+								</li>
+								<li>
+									<input type="checkbox" name="sh" disabled="disabled" id="short-2" value="del7">
+									<label for="short-2">删除</label>
+								</li>
+								<li>
+									<input type="checkbox" name="sh" disabled="disabled" id="short-3" value="modify7">
+									<label for="short-3">修改</label>
+								</li>
+								<li>
+									<input type="checkbox" name="sh" disabled="disabled" id="short-4" value="detail7">
+									<label for="short-4">查询</label>
+								</li>
+							</ul>
+						</li>
+					</ul>
+
+				</div>
+				
+				<div class="layui-input-inline select-ul">
+					<ul class="ul-title">
+						<li>
+							<input type="checkbox" name="short" id="short" disabled="disabled"  class="special-input">
+							<label for="short">站点管理</label>
+							<ul class="ul-content">
+								<li>
+									<input type="checkbox" name="zd" disabled="disabled" id="short-1" value="add8">
+									<label for="short-1">增加</label>
+								</li>
+								<li>
+									<input type="checkbox" name="zd" disabled="disabled" id="short-2" value="del8">
+									<label for="short-2">删除</label>
+								</li>
+								<li>
+									<input type="checkbox" name="zd" disabled="disabled" id="short-3" value="modify8">
+									<label for="short-3">修改</label>
+								</li>
+								<li>
+									<input type="checkbox" name="zd" disabled="disabled" id="short-4" value="detail8">
+									<label for="short-4">查询</label>
+								</li>
+							</ul>
+						</li>
+					</ul>
+
+				</div>
+
+				<div class="layui-input-inline select-ul">
+					<ul class="ul-title">
+						<li>
+							<input type="checkbox" name="short" disabled="disabled" id="short" > 
+							<label for="short">权限管理</label>
+							<ul class="ul-content">
+								<li>
+									<input type="checkbox" name="qx" disabled="disabled" id="short-1" value="add9">
+									<label for="short-1">增加</label>
+								</li>
+								<li>
+									<input type="checkbox" name="qx" disabled="disabled" id="short-2" value="del9">
+									<label for="short-2">删除</label>
+								</li>
+								<li>
+									<input type="checkbox" name="qx" disabled="disabled" id="short-3" value="modify9">
+									<label for="short-3">修改</label>
+								</li>
+								<li>
+									<input type="checkbox" name="qx" disabled="disabled" id="short-4" value="detail9">
+									<label for="short-4">查询</label>
+								</li>
+							</ul>
+						</li>
+					</ul>
+
+				</div>
+				
+				<div class="layui-input-inline select-ul">
+					<ul class="ul-title">
+						<li>
+							<input type="checkbox" name="short" id="short" disabled="disabled"  class="special-input">
+							<label for="short">人员</label>
+							<ul class="ul-content">
+								<li>
+									<input type="checkbox" name="ry" disabled="disabled" id="short-1" value="add10">
+									<label for="short-1">增加</label>
+								</li>
+								<li>
+									<input type="checkbox" name="ry" disabled="disabled" id="short-2" value="del10">
+									<label for="short-2">删除</label>
+								</li>
+								<li>
+									<input type="checkbox" name="ry" disabled="disabled" id="short-3" value="modify10">
+									<label for="short-3">修改</label>
+								</li>
+								<li>
+									<input type="checkbox" name="ry" disabled="disabled" id="short-4" value="detail10">
+									<label for="short-4">查询</label>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+	
+	        <div class="layui-form-item ul-main">
+				<label class="layui-form-label"></label>
+				<div class="layui-input-inline select-ul">
+					<ul class="ul-title">
+						<li>
+							<input type="checkbox" name="short" id="short" disabled="disabled"  class="special-input">
+							<label for="short">日志管理</label>
+							<ul class="ul-content">
+								<li>
+									<input type="checkbox" name="rz" disabled="disabled" id="short-1" value="add11">
+									<label for="short-1">增加</label>
+								</li>
+								<li>
+									<input type="checkbox" name="rz" disabled="disabled" id="short-2" value="del11">
+									<label for="short-2">删除</label>
+								</li>
+								<li>
+									<input type="checkbox" name="rz" disabled="disabled" id="short-3" value="modify11">
+									<label for="short-3">修改</label>
+								</li>
+								<li>
+									<input type="checkbox" name="rz" disabled="disabled" id="short-4" value="detail11">
+									<label for="short-4">查询</label>
+								</li>
+							</ul>
+						</li>
+					</ul>
+
+				</div>
+			</div>
+	
+				<div style="margin-top: 50px;overflow: hidden;margin-bottom: 40px;" class="layui-form-item">
+					<div class="col-lg-offset-2 col-lg-10">
+						<a href="permissionManage.html" class="layui-btn common-btn" style="position: absolute;right: 50%;">返回</a>
+					</div>
+				</div>
+		</form>
+
+<script>
+	var url_data=window.location.search;
+			var url_arr = url_data.split("=");
+			var roleId = url_arr[1]
+			console.log(roleId)
+	$.ajax({
+		type: "get",
+		url: "http://10.133.10.204/DATA/GetMenuListByRoleId?roleId="+roleId,
+		dataType: "JSON",
+		success: function(data) {
+			var data1 = data.Role;
+			var arr1 =data.data;
+			console.log(data1);
+			console.log(arr1[0])
+			$("#i1").val(data1.RoleName);
+			var arr2=[];
+			function check(res,num){
+				if(res.IsAdd==true){
+					arr2.push('add'+num);
+				}if(res.IsDelete==true){
+					arr2.push('del'+num);
+				}if(res.IsModify==true){
+					arr2.push('modify'+num);
+				}if(res.IsSearch==true){
+					arr2.push('detail'+num);
+				}
+			}
+			
+			check(arr1[0],1);
+			check(arr1[1],2);
+			check(arr1[2],3);
+			check(arr1[3],4);
+			check(arr1[4],5);
+			check(arr1[5],6);
+			check(arr1[6],7);
+			check(arr1[7],8);
+			check(arr1[8],9);
+			check(arr1[9],10);
+			check(arr1[10],11);
+			
+			obj = document.getElementsByTagName("input");
+			for(k in arr2){
+				for(i in obj){
+					if(arr2[k]==obj[i].value){
+					$("input[value='"+arr2[k]+"']").prop('checked',true)
+					}
+				};
+			};
+			if($("input[name=shor]:checked").size()!=$("input[name=shor]").size()&&$("input[name=shor]:checked").size()!=0){
+   	  						$("input[name=shor]").parent().parent().siblings().prop("indeterminate",true)
+  						 }else if($("input[name=shor]:checked").size()==$("input[name=shor]").size()){
+  						 	$("input[name=shor]").parent().parent().siblings().prop("indeterminate",false)
+  						 	$("input[name=shor]").parent().parent().siblings().prop("checked",true)
+  						 };
+  			if($("input[name=sj]:checked").size()!=$("input[name=sj]").size()&&$("input[name=sj]:checked").size()!=0){
+   	  						$("input[name=sj]").parent().parent().siblings().prop("indeterminate",true)
+  						 }else if($("input[name=sj]:checked").size()==$("input[name=sj]").size()){
+  						 	$("input[name=sj]").parent().parent().siblings().prop("indeterminate",false)
+  						 	$("input[name=sj]").parent().parent().siblings().prop("checked",true)
+  						 };			 
+			if($("input[name=sk]:checked").size()!=$("input[name=sk]").size()&&$("input[name=sk]:checked").size()!=0){
+   	  						$("input[name=sk]").parent().parent().siblings().prop("indeterminate",true)
+  						 }else if($("input[name=sk]:checked").size()==$("input[name=sk]").size()){
+  						 	$("input[name=sk]").parent().parent().siblings().prop("indeterminate",false)
+  						 	$("input[name=sk]").parent().parent().siblings().prop("checked",true)
+  						 };	
+			if($("input[name=zy]:checked").size()!=$("input[name=zy]").size()&&$("input[name=zy]:checked").size()!=0){
+   	  						$("input[name=zy]").parent().parent().siblings().prop("indeterminate",true)
+  						 }else if($("input[name=zy]:checked").size()==$("input[name=zy]").size()){
+  						 	$("input[name=zy]").parent().parent().siblings().prop("indeterminate",false)
+  						 	$("input[name=zy]").parent().parent().siblings().prop("checked",true)
+  						 };	
+  			if($("input[name=qx]:checked").size()!=$("input[name=qx]").size()&&$("input[name=qx]:checked").size()!=0){
+   	  						$("input[name=qx]").parent().parent().siblings().prop("indeterminate",true)
+  						 }else if($("input[name=qx]:checked").size()==$("input[name=qx]").size()){
+  						 	$("input[name=qx]").parent().parent().siblings().prop("indeterminate",false)
+  						 	$("input[name=qx]").parent().parent().siblings().prop("checked",true)
+  						 };	
+  			if($("input[name=mr]:checked").size()!=$("input[name=mr]").size()&&$("input[name=mr]:checked").size()!=0){
+   	  						$("input[name=mr]").parent().parent().siblings().prop("indeterminate",true)
+  						 }else if($("input[name=mr]:checked").size()==$("input[name=mr]").size()){
+  						 	$("input[name=mr]").parent().parent().siblings().prop("indeterminate",false)
+  						 	$("input[name=mr]").parent().parent().siblings().prop("checked",true)
+  						 };
+  			if($("input[name=cy]:checked").size()!=$("input[name=cy]").size()&&$("input[name=cy]:checked").size()!=0){
+   	  						$("input[name=cy]").parent().parent().siblings().prop("indeterminate",true)
+  						 }else if($("input[name=cy]:checked").size()==$("input[name=cy]").size()){
+  						 	$("input[name=cy]").parent().parent().siblings().prop("indeterminate",false)
+  						 	$("input[name=cy]").parent().parent().siblings().prop("checked",true)
+  						 };
+  			if($("input[name=sh]:checked").size()!=$("input[name=sh]").size()&&$("input[name=sh]:checked").size()!=0){
+   	  						$("input[name=sh]").parent().parent().siblings().prop("indeterminate",true)
+  						 }else if($("input[name=sh]:checked").size()==$("input[name=sh]").size()){
+  						 	$("input[name=sh]").parent().parent().siblings().prop("indeterminate",false)
+  						 	$("input[name=sh]").parent().parent().siblings().prop("checked",true)
+  						 };
+  			if($("input[name=zd]:checked").size()!=$("input[name=zd]").size()&&$("input[name=zd]:checked").size()!=0){
+   	  						$("input[name=zd]").parent().parent().siblings().prop("indeterminate",true)
+  						 }else if($("input[name=zd]:checked").size()==$("input[name=zd]").size()){
+  						 	$("input[name=zd]").parent().parent().siblings().prop("indeterminate",false)
+  						 	$("input[name=zd]").parent().parent().siblings().prop("checked",true)
+  						 };
+  			if($("input[name=ry]:checked").size()!=$("input[name=ry]").size()&&$("input[name=ry]:checked").size()!=0){
+   	  						$("input[name=ry]").parent().parent().siblings().prop("indeterminate",true)
+  						 }else if($("input[name=ry]:checked").size()==$("input[name=ry]").size()){
+  						 	$("input[name=ry]").parent().parent().siblings().prop("indeterminate",false)
+  						 	$("input[name=ry]").parent().parent().siblings().prop("checked",true)
+  						 };
+  			if($("input[name=rz]:checked").size()!=$("input[name=rz]").size()&&$("input[name=rz]:checked").size()!=0){
+   	  						$("input[name=rz]").parent().parent().siblings().prop("indeterminate",true)
+  						 }else if($("input[name=rz]:checked").size()==$("input[name=rz]").size()){
+  						 	$("input[name=rz]").parent().parent().siblings().prop("indeterminate",false)
+  						 	$("input[name=rz]").parent().parent().siblings().prop("checked",true)
+  						 };			 
+		}
+	});
+  
+</script>
+
+	</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>管理详情</title>
+		<link rel="stylesheet" href="../build/css/common.css" />
+		<link rel="stylesheet" href="../plugins/layui/css/layui.css" media="all">
+	</head>
+	<style>
+		html {
+			background: #f3f3f3;
+			padding: 20px;
+		}
+		
+		body {
+			padding: 20px;
+			background: #FFFFFF;
+			border-radius: 10px;
+			overflow-y: scroll;
+			box-shadow: 0 2px 6px rgba(100, 100, 100, 0.3);
+		}
+		
+		.layui-layer-iframe {
+			border-top-left-radius: 10px !important;
+			border-top-right-radius: 10px !important;
+		}
+		
+		.layui-layer-content {
+			background-color: #F8F8F8 !important;
+		}
+		
+		.sortable-ghost {
+			opacity: 0.4;
+			background-color: #46d0fe !important;
+		}
+	</style>
+
+	<body>
+
+		<table id="data-detail" class="layui-table" lay-filter="test">
+
+		</table>
+		<div class="layui-btn-group" style="margin-left:40%;margin-top: 20px;">
+			<button class="layui-btn common-btn release-schedule"><i class="layui-icon layui-icon-table"></i>生成基本时刻表</button>
+			<a href="data-management.html"><button class="layui-btn common-btn" style="margin-left: 40px !important;" data-type="reload"><i class="layui-icon layui-icon-left"></i>返回</button></a>
+			
+		</div>
+	</body>
+	<script type="text/javascript" src="../build/js/jquery-2.1.0.js"></script>
+	<script type="text/javascript" src="../build/js/Sortable.js"></script>
+	<script type="text/javascript" src="../plugins/layui/layui.all.js"></script>
+	<script type="text/html" id="barDemo">
+		<a class="layui-btn layui-btn-xs common-btn data-download"  lay-event="import">导入</a>
+		<a class="layui-btn layui-btn-xs common-btn download" lay-event="download">下载</a>
+	</script>
+	<script>
+		var url_data = window.location.search;
+		var url_arr = url_data.split("=");
+		var GuiId = url_arr[1];
+
+			
+		var typeid = '';
+		layui.use(['table', 'layer', 'element'], function() {
+			var table = layui.table;
+			var layer = layui.layer;
+			var element = layui.element;
+
+			$(".release-schedule").click(function() {
+				sessionStorage.setItem("transferGuidId", GuiId);
+				console.log(GuiId)
+				//top.location.href = "../index.html?transferGuidId="+GuiId
+				//				top.location.href = "../timeTable/timetable-management.html?GuiId=" + GuiId
+				parent.$(".layui-nav>li").eq(1).addClass("nav-click").siblings().removeClass("nav-click")
+				parent.$(".layui-show iframe").attr("src", "timeTable/timetable-management.html?GuiId=" + GuiId)
+				parent.$(".layui-show").attr("lay-item-id", 2);
+				parent.$(".timetable>a").attr("data-url", "timeTable/timetable-management.html?GuiId=" + GuiId)
+			})
+
+			//第一个实例
+			table.render({
+				elem: '#data-detail',
+				url: 'http://10.133.10.204/HOME/GetUploadFileList?transferGuidId=' + GuiId, //数据接口
+				//url:'../datas/updata.json',
+				text: {
+					none: '暂无相关数据' //默认：无数据。注：该属性为 layui 2.2.5 开始新增
+				},
+				method: "post",
+				cols: [
+					[ //表头
+						{
+							field: 'FileSavedType',
+							title: '序号',
+
+						}, {
+							field: 'FileName',
+							title: '文件名称',
+						}, {
+							field: 'FileGuidName',
+							title: '上传日期',
+
+						}, {
+
+							title: '操作',
+							align: 'center',
+							toolbar: '#barDemo'
+
+						}
+
+					]
+				],
+				done:function(){
+			       if($("tr[data-index=0] td[data-field='FileGuidName'] div").text()==="未导入"){
+			             for (var i=1;i<7;i++) {
+			             	$("tr[data-index="+i+"] td[data-off=true] .data-download").addClass("layui-btn-disabled");
+			       			$("tr[data-index="+i+"] td[data-off=true] .data-download").attr("lay-event","")
+			             }
+			        }     
+			       	else{
+			       		for (var i=1;i<7;i++) {
+			             	$("tr[data-index="+i+"] td[data-off=true] .data-download").removeClass("layui-btn-disabled");
+			       			$("tr[data-index="+i+"] td[data-off=true] .data-download").attr("lay-event","import")
+			             }
+			       	}
+			       			
+			       
+			       
+				}
+
+			});
+
+			//			操作表格
+			
+			table.on('tool(test)', function obj(obj) {
+				var data = obj.data;
+				var updata_id = data.FileSavedType;
+				typeid = updata_id
+				if(obj.event === 'import') {
+					layer.open({
+						title: '导入车次信息表',
+						type: 2,
+						area: ["400px", "200px"],
+						content: "update.html",
+					})
+				} else if(obj.event === 'download') {
+						var download = "http://10.133.10.204/HOME/DownloadFile?GuidId="+obj.data.GuidId
+						$.ajax({
+							type:"post",
+							url:download,
+							async:true,
+							success:function(data){
+								var url = data.data
+								console.log(url)
+								location.href="http://"+url
+							}
+						});
+				}
+			});
+
+			//			表格行拖动		
+			$("tbody").attr("id", 'foo')
+			Sortable.create(document.getElementById('foo'), {
+				animation: 150
+			});
+
+		});
+		//下达作业时刻表
+	</script>
+
+</html>

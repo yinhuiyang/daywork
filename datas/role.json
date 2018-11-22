@@ -1,0 +1,20 @@
+{
+	"code": 0,
+	"msg": "",
+	"count": 3,
+	"data": [
+		{
+			"id": 1,
+			"rolename": "超级管理员",
+			"beizhu": "全部权限"
+		}, {
+			"id": 2,
+			"rolename": "调图管理",
+			"beizhu": "审批调图"
+		}, {
+			"id": 3,
+			"rolename": "通用角色",
+			"beizhu": "查看一日一表"
+		}
+	]
+}

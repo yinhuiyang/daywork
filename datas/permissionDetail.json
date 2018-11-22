@@ -1,0 +1,21 @@
+{
+	
+	"pd": 
+		{
+			"role":[{
+			"sj":{
+				"isadd":true,
+				"isdel":false,
+				"ismodify":true,
+				"isdetail":false
+			}},
+			{"sk":{
+				"isadd":true,
+				"isdel":false,
+				"ismodify":true,
+				"isdetail":false
+			}}
+			]
+		}
+	
+}

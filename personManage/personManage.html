@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>人员管理</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<link rel="stylesheet" href="../build/css/common.css" />
+		<link rel="stylesheet" href="../plugins/layui/css/layui.css" media="all">
+	</head>
+	<style>
+		html {
+			background: #f3f3f3;
+			padding: 20px;
+		}
+		
+		body {
+			padding: 20px;
+			background: #FFFFFF;
+			border-radius: 10px;
+			overflow-y: scroll;
+			box-shadow: 0 2px 6px rgba(100, 100, 100, 0.3);
+		}
+		
+		table {
+			overflow-y: scroll;
+		}
+		
+		#msg {
+			text-align: center;
+			color: red;
+		}
+	</style>
+
+	<body>
+		<div class="layui-form" action="" style="position: relative;">
+			<input type="text" id="demoReload" autocomplete="off" class="layui-input-block common-input" placeholder="工号、姓名" />
+			<button class="layui-btn common-btn search-btn" data-type="reload"><i class="layui-icon layui-icon-search"></i>查询</button>
+			<a href="addPerson.html" class="layui-btn common-btn data-creat" style="position: absolute;right: 20px;"><i class="layui-icon layui-icon-add-1"></i>新增人员</a>
+		</div>
+		<table id="table" class="layui-table" lay-filter="test">
+
+		</table>
+
+	</body>
+	<script type="text/javascript" src="../build/js/jquery-2.1.0.js"></script>
+	<script type="text/javascript" src="../build/js/Sortable.js"></script>
+	<script type="text/javascript" src="../plugins/layui/layui.all.js"></script>
+	<script type="text/html" id="barDemo">
+		<a class="layui-btn layui-btn-xs common-btn" lay-event="edit">编辑</a>
+		<a class="layui-btn common-btn layui-btn-xs" lay-event="del">删除</a>
+		<!--<a class="layui-btn layui-btn-xs common-btn" lay-event="res">重置密码</a>-->
+	</script>
+	<script type="text/html" id="respwd">
+		<form class='layui-form' id='myForm' action='' method='post'>
+		<div class="layui-form-item">
+		<label for='opwd'>原密码:&nbsp;</label> 
+		<input name='opwd' id='opwd' required type='text' class='common-input'><br/><br/>
+		</div>
+		<div class="layui-form-item">
+		<label for='npwd'>新密码:&nbsp;</label> 
+		<input name='npwd' id='npwd' required type='text' class='common-input'>
+		</div>
+		<div id="msg" class="layui-form-item">
+		</div>
+		</form>
+	</script>
+	<!--<script type="text/javascript" src="../plugins/layui/modules/mytable.js"></script>-->
+	<script>
+		layui.use('table', function() {
+			var table = layui.table;
+			//第一个实例
+			/*var width = $(document).width() / 6.5;
+			var long_width = $(document).width() / 9;*/
+			table.render({
+				response: {
+					separator: '.',
+					code: "",
+					ret: "success",
+					msg: "获取成功",
+					//dataName: 'data'
+				},
+				elem: '#table',
+				method: 'post',
+				url: 'http://10.133.10.204/Data/GetUserPageList', //数据接口
+				text: {
+					none: '暂无相关数据' //默认：无数据。注：该属性为 layui 2.2.5 开始新增
+				},
+				request: {
+					pageName: 'pageIndex' //页码的参数名称，默认：page
+						,
+					limitName: 'pageSize' //每页数据量的参数名，默认：limit
+				},
+				//开启分页	
+				page: true,
+				limit: 15,
+				limits: [5, 15, 30, 45, 60, 75],
+				cols: [
+					[ //表头
+						{
+							field: 'LoginName',
+							title: '工号',
+
+						}, {
+							field: 'Real_Name',
+							title: '姓名',
+						}, {
+							field: 'Mobile',
+							title: '电话',
+
+						}, {
+							field: 'RoleName',
+							title: '角色',
+
+						}, {
+
+							title: '操作',
+							align: 'center',
+							toolbar: '#barDemo',
+
+						}
+
+					]
+				]
+			});
+			//监听工具条
+			table.on('tool(test)', function(obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+				var data = obj.data //获得当前行数据
+					,
+					layEvent = obj.event; //获得 lay-event 对应的值
+				if(layEvent === 'res') {
+					//	弹窗	
+					layui.use('layer', function() {
+						var layer = layui.layer;
+						layer.open({
+							title: '重置密码',
+							area: ["400px", "300px"],
+							content: $("#respwd").html(),
+							btn: ["保存", "返回"],
+							btn1: function() {
+								var opwd = $("#opwd").val();
+								var npwd = $("#npwd").val();
+								console.log(opwd);
+								console.log(npwd);
+								if(opwd==""){
+									$("#msg").text("原密码不可为空");
+								}else if(npwd==""){
+									$("#msg").text("新密码不可为空");
+								}else{
+									layer.msg('保存成功', {
+										time: 2000,
+										icon: 6
+									});
+								}
+								/*
+								$("#btnbc").trigger("click");
+								layui.use('form', function() {
+									var form = layui.form;
+					
+									form.on('submit(formDemo)', function(data) {
+										//layer.msg(JSON.stringify(data.field));
+										console.log(data.field);
+										return false;
+									});
+								});*/
+								
+								/*layer.msg('保存成功', {
+										time: 2000,
+										icon: 6
+									});*/
+									
+								
+							}, //点击保存按钮的回调
+							btn2: function() {
+								layer.close(layer.index)
+							}
+						})
+
+					});
+				} else if(layEvent === 'del') {
+					layer.confirm('真的删除此行么', function(index) {
+						//obj.del(obj.data.id); //删除对应行（tr）的DOM结构
+						layer.close(index);
+						$.ajax({
+							type: "post",
+							url: 'http://10.133.10.204/Data/DeleteUser?userId=' + obj.data.id,
+							async: true,
+							success: function(data) {
+								layer.msg(data.msg, {
+									icon: 1,
+									time: 500
+								});
+								if(data.msg == "删除成功!"){
+									setTimeout(function () {
+									window.location.reload()
+									}, 500);
+								}
+							},
+							error: function() {
+								layer.msg("删除失败", {
+									icon: 2,
+									time: 1000
+								})
+							}
+						});
+					});
+				} else if(layEvent === 'edit') {
+					location.href = 'modifyPerson.html?userId='+ obj.data.id;
+				}
+			});
+
+			//		查询事件
+			$('.search-btn').on('click', function() {
+				var keyword = $("#demoReload").val();
+				table.render({
+					response: {
+						separator: '.',
+						code: 0,
+						ret: "success",
+						msg: "获取成功",
+						dataName: 'data'
+					},
+					elem: '#table',
+					method: 'post',
+					url: 'http://10.133.10.204/Data/GetUserPageList?condition=' + keyword, //数据接口
+					text: {
+						none: '暂无相关数据' //默认：无数据。注：该属性为 layui 2.2.5 开始新增
+					},
+					request: {
+						pageName: 'pageIndex' //页码的参数名称，默认：page
+							,
+						limitName: 'pageSize' //每页数据量的参数名，默认：limit
+					},
+					//开启分页	
+					page: true,
+					limit: 5,
+					limits: [5, 15, 30, 45, 60, 75],
+					cols: [
+						[ //表头
+							{
+							field: 'LoginName',
+							title: '工号',
+
+						}, {
+							field: 'Real_Name',
+							title: '姓名',
+						}, {
+							field: 'Mobile',
+							title: '电话',
+
+						}, {
+							field: 'RoleName',
+							title: '角色',
+
+						}, {
+
+							title: '操作',
+							align: 'center',
+							toolbar: '#barDemo',
+
+						}
+
+						]
+					]
+
+				});
+				$("tbody").attr("id", 'foo')
+				Sortable.create(document.getElementById('foo'), {
+					animation: 150
+				});
+			});
+
+			//	表格行拖动		
+			$("tbody").attr("id", 'foo')
+			Sortable.create(document.getElementById('foo'), {
+				animation: 150
+			});
+		});
+	</script>
+
+</html>

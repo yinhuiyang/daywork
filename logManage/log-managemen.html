@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>日志管理</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<link rel="stylesheet" href="../build/css/common.css" />
+		<link rel="stylesheet" href="../plugins/layui/css/layui.css" media="all">
+		<style>
+			html {
+				background: #f3f3f3;
+				padding: 20px;
+			}
+			
+			body {
+				padding: 20px;
+				background: #FFFFFF;
+				border-radius: 10px;
+				overflow-y: scroll;
+				box-shadow: 0 2px 6px rgba(100, 100, 100, 0.3);
+			}
+			
+			.layui-body {
+				overflow-y: scroll;
+			}
+			
+			#timeclock {
+				position: relative;
+				left: -25px;
+				top: 2px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="layui-form" action="" style="position: relative;">
+			<input type="text" id="demoReload" autocomplete="off" class="layui-input-block common-input " placeholder="工号、姓名、部门" />
+			<div class="layui-inline">
+				<input type="text" class="layui-input" id="dateselect" placeholder="日期选择 " />
+			</div>
+			<span class="layui-icon layui-icon-date " id="timeclock"></span>
+			<button class="layui-btn common-btn search-btn" data-type="reload"><i class="layui-icon layui-icon-search"></i>查询</button>
+		</div>
+		<table id="table" class="layui-table" lay-filter="test">
+
+		</table>
+		<script type="text/html" id="detail">
+			<a class="layui-btn layui-btn-xs common-btn" lay-event="detail">查看详情</a>
+		</script>
+		<script type="text/html" id="time">
+			<i class="layui-icon layui-icon-date" style="font-size: 35px;"></i>
+		</script>
+	</body>
+	<script type="text/javascript" src="../build/js/jquery-2.1.0.js"></script>
+	<script type="text/javascript" src="../build/js/Sortable.js"></script>
+	<script type="text/javascript" src="../plugins/layui/layui.all.js"></script>
+	<script>
+
+		layui.use(['table','laydate'], function() {
+			var table = layui.table;
+			var laydate = layui.laydate;
+			laydate.render({
+				elem: '#dateselect' //时间选择
+			});
+			table.render({
+				response: {
+					separator: '.',
+					code: "",
+					ret: "success",
+					msg: "获取成功"
+				},
+				elem: '#table',
+				method: "post",
+				url: 'http://10.133.10.204/HOME/GetLog', //数据接口
+				text: {
+					none: '暂无相关数据' //默认：无数据。注：该属性为 layui 2.2.5 开始新增
+				},
+				request: {
+					pageName: 'pageIndex' //页码的参数名称，默认：page
+						,
+					limitName: 'pageSize' //每页数据量的参数名，默认：limit
+				},
+				//开启分页	
+				page: true,
+				limit: 15,
+				limits: [5, 15, 30, 45, 60, 75],
+				cols: [
+					[ //表头
+						{
+							field: 'id',
+							title: 'ID',
+						}, {
+							field: 'Name',
+							title: '操作人',
+						}, {
+							field: 'DeptName',
+							title: '权限等级',
+						}, {
+							field: 'Date',
+							title: '日期',
+						}, {
+							title: '操作',
+							align: 'center',
+							toolbar: '#detail',
+						}
+					]
+				],
+			
+			});
+
+		$('.search-btn').on('click', function() {
+				var keyword = $("#demoReload").val();
+				var aboutStation = $("#dateselect").val();
+				table.render({
+				response: {
+					separator: '.',
+					code: "",
+					ret: "success",
+					msg: "获取成功"
+				},
+				elem: '#table',
+				method: "post",
+				url: 'http://10.133.10.204/HOME/GetLog?keyword='+keyword, //数据接口
+				text: {
+					none: '暂无相关数据' //默认：无数据。注：该属性为 layui 2.2.5 开始新增
+				},
+				request: {
+					pageName: 'pageIndex' //页码的参数名称，默认：page
+						,
+					limitName: 'pageSize' //每页数据量的参数名，默认：limit
+				},
+				//开启分页	
+				page: true,
+				limit: 15,
+				limits: [5, 15, 30, 45, 60, 75],
+				cols: [
+					[ //表头
+						{
+							field: 'id',
+							title: 'ID',
+						}, {
+							field: 'Name',
+							title: '操作人',
+						}, {
+							field: 'DeptName',
+							title: '权限等级',
+						}, {
+							field: 'Date',
+							title: '日期',
+						}, {
+							title: '操作',
+							align: 'center',
+							toolbar: '#detail',
+						}
+					]
+				],
+			
+			});
+			drug()
+			})
+		})
+		//	表格行拖动	
+		$(document).ready(
+			function drug(){
+				$("tbody").attr("id", 'foo')
+			Sortable.create(document.getElementById('foo'), {
+				animation: 150
+			});
+			}
+		)
+			
+	</script>
+
+</html>

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>一日一表自动化生成系统</title>
+		<link rel="stylesheet" href="plugins/layui/css/layui.css" media="all">
+		<link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/font-awesome.4.6.0.css">
+		<link rel="stylesheet" href="build/css/app.css" media="all">
+		<link rel="stylesheet" href="build/css/common.css" />
+		<link rel="stylesheet" href="iconfont/iconfont.css" />
+	</head>
+	<style>
+		.layui-this {
+			color: #1890ff !important;
+		}
+		
+		.layui-tab-title {
+			display: none;
+		}
+		
+		.layui-tab-content {
+			margin-top: 0 !important;
+		}
+	</style>
+
+	<body>
+		<div class="layui-layout layui-layout-admin kit-layout-admin">
+			<div class="layui-header">
+				<div class="layui-logo"></div>
+				<div class="layui-logo kit-logo-mobile"></div>
+				<ul class="layui-nav layui-layout-left kit-nav">
+					<img style="height: 50px;margin-top: 10px;" src="build/images/logo_03.png" alt="" />
+				</ul>
+				<div class="header-msg">
+					<span style="color: #000000;">欢迎：</span><span class="username" style="color: #08447a;">请登录</span>
+					<span>&nbsp;&nbsp;&nbsp;</span>
+					<span><img id="nav-head-date" src="build/images/time.jpg" alt="" /></span>
+					<span>今天是</span><span class="Nowtime"></span>
+				</div>
+			</div>
+
+			<div class="layui-side layui-bg-black kit-side">
+				<div class="layui-side-scroll">
+					<div class=" nav-personal">
+						<div class="personal-img">
+							<img src="" alt="" class="profile-picture " />
+						</div>
+						<div class="personal-msg profile-picture">
+							<a href="javascript:;" data-url="" data-title="个人信息" data-id='9'><i class="iconfont icon-account" style="font-size: 24px; color:#fff;"></i></a>
+						</div>
+						<div class="personal-exit">
+							<i class="iconfont icon-tuichu4" style="font-size: 30px;"></i>
+						</div>
+						<div class="personal-name username">
+								请登录	</div>
+					</div>
+					<div class="kit-side-fold"><i class="fa fa-navicon" aria-hidden="true"></i></div>
+					<!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+					<ul class="layui-nav layui-nav-tree" lay-filter="demo" kit-navbar>
+						<li class="layui-nav-item  nav-center">
+							<a class="" href="javascript:;" data-url="dataManagement/data-management.html" data-icon="fa-file" data-title="数据管理" kit-target data-id='1'>
+								<i class="iconfont icon-process" style="font-size: 16px; color: #9cc3ea;"></i> &nbsp;&nbsp;
+								<span>数据管理</span>
+							</a>
+						</li>
+						<li class="layui-nav-item nav-center timetable">
+							<a class="" href="javascript:;" data-url="" data-icon="fa-pie-chart" data-title="时刻表管理" kit-target data-id='2'>
+								<i class="iconfont icon-history" style="font-size: 16px; color: #9cc3ea;"></i> &nbsp;<span>时刻表管理</span>
+							</a>
+						</li>
+						<li class="layui-nav-item nav-center">
+							<a href="javascript:;" data-url="Job-schedule/Job-schedule.html" data-icon="fa-list" data-title="作业计划表" kit-target data-id='3'>
+								<i class="iconfont icon-training" style="font-size: 16px; color: #9cc3ea;"></i> &nbsp;<span>作业计划表</span>
+
+							</a>
+						</li>
+						<li class="layui-nav-item nav-center">
+							<a href="javascript:;" data-url="" data-icon="fa-bell" data-title="每日一表" kit-target data-id='4'>
+								<i class="iconfont icon-remind" style="font-size: 16px; color: #9cc3ea;"></i>&nbsp;&nbsp;
+								<span>每日一表</span>
+							</a>
+						</li>
+						<li class="layui-nav-item nav-center">
+							<a href="javascript:;" data-url="difference-comparison/Difference-comparison.html" data-icon="fa-balance-scale" data-title="差异对比" kit-target data-id='5'>
+								<i class="iconfont icon-libra" style="font-size: 16px; color: #9cc3ea;"></i> &nbsp;&nbsp;
+								<span>差异对比</span>
+							</a>
+						</li>
+						<li class="layui-nav-item nav-center">
+							<a href="javascript:;" data-url="Job-management/Job-management.html" data-icon="fa-file-text" data-title="作业管理" kit-target data-id='6'>
+								<i class="iconfont icon-set" style="font-size: 16px; color: #9cc3ea;"></i> &nbsp;&nbsp;
+								<span>作业管理</span>
+							</a>
+						</li>
+						<li class="layui-nav-item nav-center">
+							<a href="javascript:;" data-url="Job-review/Job-review.html" data-icon="fa-check-circle" data-title="作业审核" kit-target data-id='7'>
+								<i class="iconfont icon-templatedefault" style="font-size: 16px; color: #9cc3ea;"></i> &nbsp;&nbsp;
+								<span>作业审核</span>
+							</a>
+						</li>
+						<li class="layui-nav-item nav-center">
+							<a href="javascript:;" data-url="stageManage/stage-management.html" data-icon="fa-map-marker" data-title="站点管理" kit-target data-id='8'>
+								<i class="iconfont icon-map" style="font-size: 16px; color: #9cc3ea;"></i> &nbsp;&nbsp;
+								<span>站点管理</span>
+							</a>
+						</li>
+						<li class="layui-nav-item nav-center">
+							<a href="javascript:;" data-url="personManage/personManage.html" data-icon="fa-users" data-title="人员管理" kit-target data-id='9'>
+								<i class="iconfont icon-bussinesscard" style="font-size: 16px; color: #9cc3ea;"></i> &nbsp;&nbsp;
+								<span>人员管理</span>
+							</a>
+						</li>
+						<li class="layui-nav-item nav-center">
+							<a href="javascript:;" data-url="permissionManage/permissionManage.html" data-icon="fa-check-square-o" data-title="权限管理" kit-target data-id='10'>
+								<i class="iconfont icon-security" style="font-size: 16px; color: #9cc3ea;"></i> &nbsp;&nbsp;
+								<span>权限管理</span>
+							</a>
+						</li>
+						<li class="layui-nav-item nav-center">
+							<a href="javascript:;" data-url="logManage/log-managemen.html" data-icon="fa-list-alt" data-title="日志管理" kit-target data-id='11'>
+								<i class="iconfont icon-calendar" style="font-size: 16px; color: #9cc3ea;"></i> &nbsp;&nbsp;
+								<span>日志管理</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="layui-body" id="container">
+				<!-- 内容主体区域 -->
+				<div style="padding: 15px;">主体内容加载中,请稍等...</div>
+			</div>
+
+			<div class="layui-footer">
+				<!-- 底部固定区域 -->
+				2018 &copy; 南京佳强科技有限公司
+
+			</div>
+		</div>
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+			document.write(unescape("%3Cspan id='cnzz_stat_icon_1264021086'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/z_stat.php%3Fid%3D1264021086%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+		<script type="text/javascript" src="build/js/jquery-2.1.0.js"></script>
+		<script src="./plugins/layui/layui.js"></script>
+		<script type="text/javascript" src="build/js/jquery.cookie.js"></script>
+
+		<script>
+			$(".nav-center").click(function() {
+				var i = $(this).index()
+				$(this).addClass("nav-click").siblings().removeClass("nav-click")
+			})
+
+			var message;
+			layui.config({
+				base: 'build/js/'
+			}).use(['app', 'message', 'element'], function() {
+				var app = layui.app,
+					$ = layui.jquery,
+					layer = layui.layer,
+					element = layui.element;
+
+				//将message设置为全局以便子页面调用
+				message = layui.message;
+				//主入口
+				app.set({
+					type: 'iframe'
+				}).init();
+				//监听左侧菜单点击
+
+			});
+			//			获取当前时间
+			var myDate = new Date();
+			var year = myDate.getFullYear();
+			var mon = myDate.getMonth() + 1;
+			var days = myDate.getDate()
+			var str = year + "年" + mon + "月" + days + "日"
+			$(".Nowtime").text(str)
+
+			//	        日历
+			layui.use('laydate', function() {
+				var laydate = layui.laydate;
+				laydate.render({
+					elem: '#nav-head-date',
+					btns: ['confirm'],
+					theme: '#333', //主题颜色
+					calendar: true, //标注重要的节日
+					ready: function(data) { //回调函数
+
+					}
+				})
+			})
+			//       弹出层
+
+			$(".personal-exit").click(function() {
+				layui.use('layer', function() {
+					var layer = layui.layer;
+					layer.open({
+						title: '确认退出吗？',
+						content: "点击确认返回登录界面！",
+						btn: ["取消", "确认"],
+						btn2: function() {
+							$.removeCookie('username');
+							$.removeCookie('pwd');
+							sessionStorage.removeItem("transferGuidId");
+							window.location.href = "login.html"
+						}
+					})
+
+				});
+			})
+			//		for (var i = 0; i < $(".layui-tab-title>li").length; i++) {
+			//			if($(".layui-tab-title li").eq[i].hasClass("layui-this")){
+			//				console.log(i)
+			//			}
+			//			console.log($(".layui-tab-title>li").length)
+			//		}
+
+			//权限判断
+			var permission_arr = [];
+			var username = $.cookie("username")
+			var pwd = $.cookie("pwd")
+			$(".username").text(username)
+			if(username==undefined){
+				window.location.href="login.html"
+			}
+			$.ajax({
+				type: "post",
+				url: "http://10.133.10.204/Data/Login?loginName=" + username + "&pwd=" + pwd,
+				async: true,
+				success: function(data) {
+					var permission_arr2 = data.model.RoleMenuList;
+					var avatar = data.model.Avatar
+					var userid = data.model.id
+					$(".personal-img>img").attr("src", "http://10.133.10.204/Uploads/"+avatar)
+					for(var i = 0; i < permission_arr2.length; i++) {
+						permission_arr.push(permission_arr2[i].IsView)
+					}
+					for(var i = 0; i < permission_arr.length; i++) {
+						if(permission_arr[i] == true) {
+							$(".layui-nav>li").eq(i).css("display", "block")
+						} else {
+							$(".layui-nav>li").eq(i).css("display", "none")
+						}
+					}
+					$(".profile-picture").click(function() {
+						
+							$(".layui-show iframe").attr("src", "personManage/modifyPerson.html?userId="+userid)
+							$(".layui-show").attr("lay-item-id", 9)
+							 $(".layui-nav li").eq(8).addClass("nav-click").siblings().removeClass("nav-click")
+						
+					})
+
+				}
+			});
+
+			$(".layui-nav li").click(function() {
+				var str = sessionStorage.getItem("transferGuidId")
+				if(str == null) {
+					$(".timetable>a").attr("data-url", "timeTable/noid.html")
+				} else {
+					$(".timetable>a").attr("data-url", "timeTable/timetable-management.html?GuiId=" + str)
+				}
+			})
+			var str = sessionStorage.getItem("transferGuidId")
+
+			if(str == null) {
+				$(".timetable>a").attr("data-url", "timeTable/noid.html")
+			} else {
+				$(".timetable>a").attr("data-url", "timeTable/timetable-management.html?GuiId=" + str)
+			}
+
+			//			console.log($('.layui-tab-title li[lay-id]').eq(data.index).attr('lay-id'))
+
+			$(".layui-nav li").eq(0).click(function() {
+				$(".layui-show iframe").attr("src", "dataManagement/data-management.html")
+				$(".layui-show").attr("lay-item-id", 1)
+			})
+			$(".layui-nav li").eq(1).click(function() {
+				var str = sessionStorage.getItem("transferGuidId")
+				console.log(str)
+				if(str == null) {
+					$(".timetable>a").attr("data-url", "timeTable/noid.html")
+				} else {
+					$(".timetable>a").attr("data-url", "timeTable/timetable-management.html?GuiId=" + str)
+					$(".layui-show iframe").attr("src", "timeTable/timetable-management.html?GuiId=" + str)
+					$(".layui-show").attr("lay-item-id", 2);
+				}
+			})
+		</script>
+
+		<!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+		<!--[if lt IE 9]>
+  		<script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+  		<script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+	</body>
+
+</html>

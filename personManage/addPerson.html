@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="../plugins/layui/css/layui.css">
+		<link rel="stylesheet" href="../build/css/common.css" />
+		<style>
+			html {
+				background: #f3f3f3;
+				padding: 20px;
+			}
+			
+			body {
+				padding: 20px;
+				background: #FFFFFF;
+				border-radius: 10px;
+				overflow-y: scroll;
+				box-shadow: 0 2px 6px rgba(100, 100, 100, 0.3);
+			}
+			
+			input {
+				width: 200px !important;
+			}
+			
+			#img {
+				border: 1px;
+				width: 200px !important;
+				height: 200px !important;
+				border-radius: 50% !important;
+			}
+			
+			.layui-layer-dialog .layui-layer-content {
+				padding: 20px 50px !important;
+				background-color: #FFFFFF !important;
+			}
+			
+			.layui-layer-title {
+				color: #FFFFFF !important;
+				background-image: url(../images/he-bg.png);
+				background-repeat: no-repeat;
+				border-top-left-radius: 10px !important;
+				border-top-right-radius: 10px !important;
+				background-color: #FFFFFF !important;
+			}
+			
+			.layui-layer-dialog {
+				border-top-left-radius: 0px !important;
+				border-top-right-radius: 0px !important;
+			}
+			
+			.photo {
+				position: relative;
+			}
+			
+			img {
+				width: 80px;
+				height: 80px;
+				position: absolute;
+				z-index: 10;
+				border-radius: 50%;
+				border: 3px solid #eee;
+			}
+			
+			.picture {
+				position: absolute;
+				opacity: 0;
+				width: 100px;
+				height: 100px;
+				z-index: 100;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<div>
+			<form name="fileForm" class="layui-form" id="myForm1" action="" method="post" enctype="multipart/form-data" multiple="multiple">
+				<div class="layui-form-item">
+					<label class="layui-form-label" style="padding-top: 30px;">头像</label>
+					<div class="layui-input-block">
+						<div class="photo">
+							<div id="preview">
+								<img src="" alt="" />
+							</div>
+							<input name="filedata" type="file" onchange="preview(this)" class="picture" accept="image/jpeg,image/png" />
+						</div>
+					</div>
+				</div>
+			</form>
+			
+			<form class="layui-form" id="myForm" action="" method="post" enctype="multipart/form-data" multiple="multiple">
+				<input name="icon" type="hidden" id="hid"/>
+				<div class="layui-form-item" style="margin-top: 40px;">
+					<label class="layui-form-label">姓名:</label>
+					<div class="layui-input-block">
+						<input id="real_name" type="text" name="real_name" required lay-verify="required" placeholder="请输入姓名" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">员工编号:</label>
+					<div class="layui-input-block">
+						<input id="loginName" name="loginName" type="text" class="layui-input" required lay-verify="required" placeholder="请输入员工编号">
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">密码:</label>
+					<div class="layui-input-block">
+						<input id="pwd" name="pwd" type="text" class="layui-input" required lay-verify="required" placeholder="请输入密码">
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">手机号:</label>
+					<div class="layui-input-block">
+						<input id="phone" name="phone" type="text" class="layui-input" lay-verify="phone" placeholder="请输入手机号">
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">性别:</label>
+					<div class="layui-input-block">
+						<input type="radio" name="sex" value="男" title="男"></input>
+						<input type="radio" name="sex" checked value="女" title="女"></input>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">站点部门:</label>
+					<div style="width: 200px;" class="layui-input-inline">
+						<select id="site" name="FK_ZSZDeptGuidId" lay-filter="stage" lay-verify="required" onChange="getdept()">
+							<option value="">--站点--</option>
+						</select>
+					</div>
+					<div style="width: 200px;" class="layui-input-inline">
+						<select id="dept" name="deptId">
+							<option value="">--部门--</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">角色:</label>
+					<div style="width: 200px;" class="layui-input-block">
+						<select id="role" name="roleId" lay-verify="required">
+							<option value="">--请选择--</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="layui-form-item" style="margin-bottom: 40px;overflow: hidden;">
+					<div class="col-lg-offset-2 col-lg-10">
+						<button lay-submit lay-filter="formDemo" class="layui-btn common-btn" style="position: absolute;right: 58%;">保存</button>
+						<button type="button" onclick="reflush()" class="layui-btn common-btn" style="position: absolute;right: 50%;">重置</button>
+						<a href="personManage.html" class="layui-btn common-btn" style="position: absolute;right: 42%;">返回</a>
+					</div>
+				</div>
+			</form>
+
+		</div>
+		<script src="../plugins/layui/layui.js"></script>
+		<script type="text/javascript" src="../build/js/jquery-2.1.0.js"></script>
+		<script type="text/javascript" src="../build/js/form.js"></script>
+		<script>
+			function reflush() {
+				window.location.reload();
+			}
+
+			function preview(file) {
+				var prevDiv = document.getElementById('preview');
+				if(file.files) {
+					var reader = new FileReader();
+					reader.onload = function(evt) {
+						prevDiv.innerHTML = '<img src="' + evt.target.result + '" />';
+					}
+					reader.readAsDataURL(file.files[0]);
+				} else {
+					prevDiv.innerHTML = '<div class="img" style="filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src=\'' + file.value + '\'"></div>';
+				}
+				
+			var form = $("form[name=fileForm]");
+			var action ="http://10.133.10.204/Data/UploadIcon";
+			var options = {
+				url: action, //上传文件的路径  
+				type: 'post',
+				success: function(data) {
+					console.log(data);
+					$("#hid").val(data)
+				}
+			};
+			form.ajaxSubmit(options);
+		}
+		</script>
+		<script>
+			layui.use('form', function() {
+				var form = layui.form;
+				var action ="http://10.133.10.204/Data/AddUser";
+				form.on('submit(formDemo)', function(data) {
+					console.log(data.field);
+						$.ajax({
+						type:"post",
+						url:action,
+						async:true,
+						data:data.field,
+						success:function(data){
+							layer.msg(data.msg, {
+								time: 500,
+								icon: 6
+							});
+							setTimeout(function () {
+						        window.location.reload()
+						    }, 500);
+						}
+					});
+						return false;    
+				});
+
+				//添加关联车站 角色 部门
+				function renderForm() {
+						form.render();
+				}
+				$.ajax({
+					type: "post",
+					url: "http://10.133.10.204/HOME/GetStation?keyword="+"南京",
+					async: true,
+					success: function(data) {
+						var dat = data
+						for(var i = 0; i < dat.data.length; i++) {
+							var aa = dat.data[i];
+							$("#site").append("<option value='" + aa.ParentGuidId + "'>" + aa.ParentStationName + "</option>");
+							//					
+							//添加完成之后需要重新渲染
+							//					};
+						}
+						renderForm();
+						form.on('select(stage)', function(data) {
+							var i = $("#site").get(0).selectedIndex - 1; //得到select原始DOM对象
+							$("#dept option").remove();
+							$("#dept").append("<option value='"+dat.data[i].ParentGuidId+"' selected='selected'> --部门-- </option>");
+
+							for(var j = 0; j < dat.data[i].ListStation.length; j++) {
+								var bb = dat.data[i].ListStation[j]
+								$("#dept").append("<option value='" + bb.GuidId + "'>" + bb.DeptName + "</option>");
+							};
+							renderForm();
+						})
+
+					}
+				});
+				$.ajax({
+					type: "get",
+					url: "http://10.133.10.204/Data/GetRoleList",
+					async: true,
+					success: function(data) {
+						for(var i = 0; i < data.data.length; i++) {
+							$("#role").append("<option value='" + data.data[i].GuidId + "'>" + data.data[i].RoleName + "</option>");
+							renderForm(); //添加完成之后需要重新渲染
+						}
+					}
+				});
+
+			});
+		</script>
+
+	</body>
+
+</html>

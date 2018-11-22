@@ -1,0 +1,113 @@
+.zl-btn{
+ background: #2197ff !important;
+}
+.zl-i{
+    display: inline-block;
+    margin-right: 5px;
+}
+.zl-lf{
+    float: left;
+}
+.zl-malf{
+    margin-left: 10px !important;
+}
+.zl-rili{
+    background: url("../images/rili.png") 220px 10px no-repeat;
+}
+/*layui*/
+
+.layui-layer-content{
+    box-shadow:none !important;
+    padding-right: 0px !important;
+}
+.layui-table, .layui-table-view{
+    margin: 0px !important;
+}
+.layui-table-page{
+    margin: 0 auto !important;
+}
+/*弹出层*/
+
+.tan_main_header{
+    display: inline-block;
+    border-radius: 6px;
+    padding: 2px 8px;
+    background: #d2d2d2;
+    margin:0px 0px 20px 0px;
+}
+.zl-label{
+    width: 78px;
+    float: left;
+    display: block;
+    padding: 9px 4px 9px 0px;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: right;
+    color: #333333;
+}
+.zl-yuan-input{
+    background: #efefef;
+}
+/*check*/
+.huiinput {
+    
+    border-color: #c1c2c2 !important;
+    background-color: #c1c2c2 !important;
+    color: #efefef !important;
+}
+.laninput {
+    border-color: #239bfc !important;
+    background-color: #239bfc !important;
+    color: #efefef !important;
+}
+/*.layui-form-checked[lay-skin=primary] i {*/
+    /*border-color: #239bfc !important;*/
+    /*background-color: #239bfc !important;*/
+    /*color: #fff;*/
+/*}*/
+.layui-form-checkbox[lay-skin=primary]:hover i {
+    border-color: #239bfc !important;
+     color: #fff;
+}
+.layui-form-radio>i:hover, .layui-form-radioed>i{
+    color: #239bfc !important;
+}
+.huiInput i:hover{
+.layui-form-checkbox[lay-skin=primary]:hover i
+    border-color: #d2d2d2 !important;
+    color: #fff;
+
+}
+.yuankaixing{
+    margin: 25px 25px 0px 0px;
+    background: #fff;
+    border-radius: 10px 10px 0 0;
+    overflow: hidden;
+}
+.lan{
+   margin: 10px 0 0 10px;
+    padding: 2px 8px;
+    background: #239bfc;
+    color: #fff;
+}
+.zl-yuan-input-bai{
+    background: #ffffff;
+}
+.yuankaixing-form{
+    margin: 20px 0 0 14px;
+}
+#tanoption-select{
+    border: 1px solid #999;
+    border-radius: 4px;
+    padding: 4px;
+    color:#666;
+    cursor: pointer;
+}
+.tan-btn{
+    padding-left: 220px;
+    margin: 10px 10px;
+}
+/*滚动条隐藏*/
+.scrollHidden{
+    overflow: hidden !important;
+}

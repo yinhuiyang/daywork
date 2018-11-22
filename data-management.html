@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>数据管理</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>Document</title>
+		<link rel="stylesheet" href="css/common.css" />
+		<link rel="stylesheet" href="js/layui/css/layui.css" media="all">
+
+	</head>
+	<style>
+		html {
+			background: #f3f3f3;
+			padding: 20px;
+		}
+		
+		body {
+			padding: 20px;
+			background: #FFFFFF;
+			border-radius: 10px;
+			overflow-y: scroll;
+		}
+		.sortable-ghost {
+            opacity: 0.4;
+            background-color: #46d0fe !important;
+        }
+	</style>
+
+	<body>
+		<div class="layui-form" action="" style="position: relative;">
+			<input type="text" name="keyword" id="demoReload" autocomplete="off" class="layui-input-block common-input" placeholder="请输入调图版本号" />
+			<button class="layui-btn common-btn" data-type="reload"><i class="layui-icon layui-icon-search"></i>查询</button>
+			<button class="layui-btn common-btn data-creat" style="position: absolute;right: 20px;"><i class="layui-icon layui-icon-add-1"></i>创建</button>
+		</div>
+		<table id="table" class="layui-table" lay-filter="test">
+
+		</table>
+		
+	</body>
+
+	<script type="text/javascript" src="js/jquery-2.1.0.js"></script>
+	<script type="text/javascript" src="js/layui/layui.all.js"></script>
+	<script type="text/javascript" src="../build/js/Sortable.js" ></script>
+	<script type="text/html" id="barDemo">
+		<a class="layui-btn layui-btn-xs common-btn" lay-event="detail">管理</a>
+	</script>
+	<script>
+		layui.use('table', function() {
+			var table = layui.table;
+			//第一个实例
+			table.render({
+				elem: '#table',
+				url: 'table.json', //数据接口
+
+				text: {
+					none: '暂无相关数据' //默认：无数据。注：该属性为 layui 2.2.5 开始新增
+				},
+				page: true, //开启分页		
+				limit: 15,
+				cols: [
+					[ //表头
+						{
+							field: 'id',
+							title: '编号',
+
+						}, {
+							field: 'username',
+							title: '调图版本',
+						}, {
+							field: 'sex',
+							title: '创建日期',
+
+						}, {
+							field: 'city',
+							title: '备注',
+
+						}, {
+							field: 'sign',
+							title: '创建人',
+
+						}, {
+
+							title: '操作',
+							fixed: 'right', 
+							align:'center',
+							toolbar: '#barDemo'
+
+						}
+    
+    
+
+					]
+				]
+			});
+			var $ = layui.$,
+				active = {
+					reload: function() {
+						var demoReload = $('#demoReload');
+
+						table.reload('testReload', {
+							where: {
+								keyword: demoReload.val()
+							}
+						});
+					}
+				};
+				
+				//	表格行拖动		
+			$(document).ready(function drug() {
+				$("tbody").attr("id", 'foo') //id可以随意选择
+				Sortable.create(document.getElementById('foo'), {
+					animation: 150
+				});
+			})
+		});
+		$(".data-creat").click(function(){
+			layui.use('layer', function(){
+  				var layer = layui.layer;
+                layer.open({
+                	title:'创建新调图',
+                	area:["400px","300px"],
+                	content:"<label for=''>版本名称:&nbsp;</label> <input type='text' class='common-input'><br/><br/><label for=''>备注信息:&nbsp;</label> <input type='text' class='common-input'>",        
+                	btn:["保存","返回"],
+                	btn1:function(){
+                		
+                	},//点击保存按钮的回调
+                	btn2:function(){
+                		layer.close(layer.index)
+                	}
+                })
+  				
+			}); 
+		})
+	</script>
+
+</html>

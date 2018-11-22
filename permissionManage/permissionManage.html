@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>权限管理</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<link rel="stylesheet" href="../build/css/common.css" />
+		<link rel="stylesheet" href="../plugins/layui/css/layui.css" media="all">
+	</head>
+	<style>
+		html {
+			background: #f3f3f3;
+			padding: 20px;
+		}
+		
+		body {
+			padding: 20px;
+			background: #FFFFFF;
+			border-radius: 10px;
+			overflow-y: scroll;
+			box-shadow: 0 2px 6px rgba(100, 100, 100, 0.3);
+		}
+	</style>
+
+	<body>
+		<div class="layui-form" action="" style="position: relative;">
+			<input type="text" id="demoReload" autocomplete="off" class="layui-input-block common-input" placeholder="角色名称" />
+			<button class="layui-btn common-btn search-btn" data-type="reload"><i class="layui-icon layui-icon-search"></i>查询</button>
+			<a href="addPermission.html" class="layui-btn common-btn data-creat" style="position: absolute;right: 20px;"><i class="layui-icon layui-icon-add-1"></i>新增角色</a>
+		</div>
+		<table id="table" class="layui-table" lay-filter="test">
+
+		</table>
+		
+	</body>
+	<script type="text/javascript" src="../build/js/jquery-2.1.0.js"></script>
+	<script type="text/javascript" src="../build/js/Sortable.js"></script>
+	<script type="text/javascript" src="../plugins/layui/layui.all.js"></script>
+	<script type="text/html" id="barDemo">
+		<a class="layui-btn layui-btn-xs common-btn" lay-event="detail">查看</a>
+		<a class="layui-btn layui-btn-xs common-btn" lay-event="edit">编辑</a>
+		<a class="layui-btn layui-btn-xs common-btn" lay-event="del">删除</a>
+	</script>
+	<script>
+		layui.use(['table', 'laypage'], function() {
+			var table = layui.table;
+			var laypage = layui.laypage;
+			//第一个实例
+			table.render({
+			
+			elem: '#table',
+			method: 'get',
+			url: 'http://10.133.10.204/Data/GetRoleList', //数据接口
+			text: {
+				none: '暂无相关数据' //默认：无数据。注：该属性为 layui 2.2.5 开始新增
+			},
+				cols: [
+					[ //表头
+						{
+							field: 'GuidId',
+							title: '编号',
+
+						}, {
+							field: 'RoleName',
+							title: '角色名称',
+						}, {
+							field: 'CreateTime',
+							title: '备注',
+
+						},{
+
+							title: '操作',
+							align:'center',
+							toolbar: '#barDemo'
+
+						}
+    
+    
+
+					]
+				]
+			});
+			//监听工具条
+  table.on('tool(test)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+    var data = obj.data; //获得当前行数据
+    //console.log(obj.data)
+    layEvent = obj.event; //获得 lay-event 对应的值
+    if(layEvent === 'detail'){
+      location.href='permissionDetail.html?roleId='+obj.data.GuidId;
+    } else if(layEvent === 'del'){
+      layer.confirm('真的删除此行么', function(index){
+        //obj.del(obj.data.GuidId); //删除对应行（tr）的DOM结构
+        layer.close(index);
+        $.ajax({
+			type: "post",
+			url: 'http://10.133.10.204/Data/DeleteRole?roleId=' + obj.data.GuidId,
+			async: true,
+			success: function(data) {
+				layer.msg(data.msg, {
+					time: 500
+				});
+				
+				if(data.msg == "删除成功!"){
+					setTimeout(function () {
+					window.location.reload()
+					}, 500);
+				}
+				
+				},
+			error: function() {
+				layer.msg("删除失败", {
+					icon: 2,
+					time: 1000
+					})
+				}
+			});
+      });
+    } else if(layEvent === 'edit'){
+    	location.href='modifyPermission.html?roleId='+obj.data.GuidId;
+    };
+  });
+  
+  	//		查询事件
+			$('.search-btn').on('click', function() {
+				var keyword = $("#demoReload").val();
+				table.render({
+					response: {
+						separator: '.',
+						code: 0,
+						ret: "success",
+						msg: "获取成功",
+					},
+					elem: '#table',
+					method: 'post',
+					url: 'http://10.133.10.204/HOME/GetTimeTable?keyword=' + keyword, //数据接口
+					text: {
+						none: '暂无相关数据' //默认：无数据。注：该属性为 layui 2.2.5 开始新增
+					},
+					cols: [
+					[ //表头
+						{
+							field: 'GuidId',
+							title: '编号',
+
+						}, {
+							field: 'RoleName',
+							title: '角色名称',
+						}, {
+							field: 'CreateTime',
+							title: '备注',
+
+						},{
+
+							title: '操作',
+							align:'center',
+							toolbar: '#barDemo'
+
+						}
+
+						]
+					]
+
+				});
+				$("tbody").attr("id", 'foo')
+				Sortable.create(document.getElementById('foo'), {
+					animation: 150
+				});	
+			});
+			
+				
+			//	表格行拖动		
+          $("tbody").attr("id", 'foo')
+				Sortable.create(document.getElementById('foo'), {
+					animation: 150
+				});	
+		});
+		
+		/*$.ajax({
+			type:"get",
+			url:"http://192.168.65.212:8080/HOME/GetRoleList",
+			async:true,
+			success: function(data) {
+				console.log(data.data[0].id)
+				}
+		});*/
+	</script>
+
+</html>

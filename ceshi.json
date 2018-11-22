@@ -1,0 +1,56 @@
+{
+  "ret": "success",
+  "msg": "获取成功",
+  "code":"",
+  "count":"",
+  "model": {
+    "jobScheduleGroup": [
+      {
+        "date": "2018-07-06 00:00:00",
+        "jobSchedule": [
+          {
+            "id": 6,
+            "Name": null,
+            "Operation": "修改",
+            "MenuName": null,
+            "Date": "0001-01-01 00:00:00",
+            "Type": null,
+            "DeptName": null
+          },
+          {
+            "id": 7,
+            "Name": null,
+            "Operation": "删除",
+            "MenuName": null,
+            "Date": "0001-01-01 00:00:00",
+            "Type": null,
+            "DeptName": null
+          }
+        ]
+      },
+      {
+        "date": "2018-07-04 00:00:00",
+        "jobSchedule": [
+          {
+            "id": 8,
+            "Name": null,
+            "Operation": "添加",
+            "MenuName": null,
+            "Date": "0001-01-01 00:00:00",
+            "Type": null,
+            "DeptName": null
+          },
+          {
+            "id": 16,
+            "Name": null,
+            "Operation": "添加站点",
+            "MenuName": null,
+            "Date": "0001-01-01 00:00:00",
+            "Type": null,
+            "DeptName": null
+          }
+        ]
+      }
+      ]
+  }
+}
